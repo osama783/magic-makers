@@ -1,0 +1,62 @@
+/*
+ * MagicMinds design tokens — runtime source of truth.
+ * Every color/space/radius/z/breakpoint value lives here; nothing else
+ * in the codebase may declare a raw hex.
+ *
+ * Fonts: Fraunces (serif) and Inter (grotesque/sans) are documented
+ * open-license SUBSTITUTES for the licensed Canela / Söhne named in the
+ * brand constitution. Max two families visible per scene.
+ */
+
+:root {
+  /* ---- Color ---- */
+  --ink-900: #0a0e20;
+  --ink-800: #121736;
+  --ink-700: #1e2450;
+  --ivory-50: #f8f3ea;
+  --cream-100: #fcf8f1;
+  --text-ink: #14183a;
+  --lavender: #b3a0e6;
+  --violet-deep: #5c3fa0;
+  --butter: #f5d27c;
+  --sky: #86c5e8;
+  --pink: #e7a6b7;
+  --mint: #a4d8c3;
+
+  /* Muted text = opacity of the primary text color. Never a new grey. */
+  --text-muted-opacity: 0.68;
+
+  /* ---- Spacing scale (px) ---- */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 64px;
+  --space-6: 96px;
+  --space-7: 128px;
+  --section-padding-mobile: 64px;
+  --section-padding-desktop: 96px;
+
+  /* ---- Radius ---- */
+  --radius-none: 0px;
+  --radius-control: 4px;
+  --radius-circular: 9999px; /* reserved for portal/iris only */
+
+  /* ---- Named z-layers ---- */
+  --z-void: 0;
+  --z-distant: 10;
+  --z-subject: 20;
+  --z-foreground-glow: 30;
+  --z-ui: 40;
+  --z-cursor: 50;
+  --z-transition-overlay: 60;
+
+  /* ---- Breakpoints (single definition) ---- */
+  --bp-tablet: 768px;
+  --bp-desktop: 1024px;
+
+  /* ---- Typography families ---- */
+  --font-serif: "Fraunces Variable", Georgia, serif;
+  --font-grotesque: "Inter Variable", system-ui, sans-serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+}
