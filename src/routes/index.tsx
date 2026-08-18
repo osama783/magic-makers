@@ -668,19 +668,25 @@ function Twinkles() {
   ];
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-      {dots.map((d, i) => (
-        <Spark
+      {dots.map((dot, i) => (
+        <svg
           key={i}
-          className="absolute text-gold animate-twinkle"
-          // @ts-expect-error inline style
+          viewBox="0 0 24 24"
+          fill="none"
+          className="absolute animate-twinkle text-gold"
           style={{
-            top: d.top,
-            left: d.left,
-            width: d.s,
-            height: d.s,
-            animationDelay: d.d,
+            top: dot.top,
+            left: dot.left,
+            width: dot.s,
+            height: dot.s,
+            animationDelay: dot.d,
           }}
-        />
+        >
+          <path
+            d="M12 2c.6 4.7 2.3 6.4 7 7-4.7.6-6.4 2.3-7 7-.6-4.7-2.3-6.4-7-7 4.7-.6 6.4-2.3 7-7Z"
+            fill="currentColor"
+          />
+        </svg>
       ))}
     </div>
   );
