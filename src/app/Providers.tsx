@@ -1,16 +1,17 @@
 import { useEffect, type ReactNode } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { DoodleSprite } from "@/components/media/DoodleSprite";
+import { MagicCursor } from "@/components/cursor/MagicCursor";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { useBreakpoint } from "@/lib/useBreakpoint";
 import { useStore } from "@/lib/store";
 import { registerGsap } from "@/anim/registerGsap";
 import { initSmoothScroll } from "@/anim/smoothScroll";
 
-
 /**
  * Wires the global concerns exactly once:
- * GSAP registration, reduced-motion + save-data detection, error boundary.
+ * GSAP registration, reduced-motion + save-data detection, error boundary,
+ * doodle sprite, and the desktop MagicCursor.
  * Head metadata is handled by TanStack Router's route-level head() option
  * (this stack's single head mechanism — react-helmet-async is not used).
  */
@@ -30,10 +31,10 @@ export function Providers({ children }: { children: ReactNode }) {
     return teardown;
   }, [breakpoint, reducedMotion, saveData]);
 
-
   return (
     <ErrorBoundary>
       <DoodleSprite />
+      <MagicCursor />
       {children}
     </ErrorBoundary>
   );
