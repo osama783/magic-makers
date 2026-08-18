@@ -1,0 +1,171 @@
+@import "tailwindcss" source(none);
+@import "./styles/tokens.css";
+@source "../src";
+
+/*
+ * MagicMinds global stylesheet.
+ * All raw values live in src/styles/tokens.css — this file only maps them
+ * to Tailwind utilities and defines the typography scale + base resets.
+ */
+
+@theme inline {
+  /* Screens — mirrors BREAKPOINTS in src/lib/useBreakpoint.ts */
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+
+  /* Colors */
+  --color-ink-900: var(--ink-900);
+  --color-ink-800: var(--ink-800);
+  --color-ink-700: var(--ink-700);
+  --color-ivory-50: var(--ivory-50);
+  --color-cream-100: var(--cream-100);
+  --color-text-ink: var(--text-ink);
+  --color-lavender: var(--lavender);
+  --color-violet-deep: var(--violet-deep);
+  --color-butter: var(--butter);
+  --color-sky: var(--sky);
+  --color-pink: var(--pink);
+  --color-mint: var(--mint);
+
+  /* Spacing scale */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-7: var(--space-7);
+
+  /* Radius */
+  --radius-none: var(--radius-none);
+  --radius-control: var(--radius-control);
+
+  /* Named z-layers */
+  --z-index-void: var(--z-void);
+  --z-index-distant: var(--z-distant);
+  --z-index-subject: var(--z-subject);
+  --z-index-foreground-glow: var(--z-foreground-glow);
+  --z-index-ui: var(--z-ui);
+  --z-index-cursor: var(--z-cursor);
+  --z-index-transition-overlay: var(--z-transition-overlay);
+
+  /* Families */
+  --font-serif: var(--font-serif);
+  --font-grotesque: var(--font-grotesque);
+  --font-sans: var(--font-sans);
+}
+
+/* ---------- Typography scale ---------- */
+
+@utility t-display-xl {
+  font-family: var(--font-serif);
+  font-size: clamp(2.75rem, 6vw + 1rem, 6.5rem);
+  line-height: 1.02;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+@utility t-display-l {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 3.5vw + 1rem, 4rem);
+  line-height: 1.05;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+@utility t-h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 2.5vw + 0.75rem, 3rem);
+  line-height: 1.1;
+  font-weight: 500;
+}
+
+@utility t-kicker {
+  font-family: var(--font-grotesque);
+  font-size: clamp(0.8125rem, 0.4vw + 0.75rem, 1rem);
+  line-height: 1.2;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+@utility t-body {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.25vw + 0.95rem, 1.125rem);
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+@utility t-caption {
+  font-family: var(--font-grotesque);
+  font-size: clamp(0.75rem, 0.2vw + 0.7rem, 0.8125rem);
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Mobile caps */
+@media (max-width: 767px) {
+  .t-display-xl {
+    font-size: 2.75rem;
+  }
+  .t-display-l {
+    font-size: 2rem;
+  }
+  .t-h2 {
+    font-size: 1.75rem;
+  }
+  .t-body {
+    font-size: 1rem;
+  }
+}
+
+@utility text-muted-ivory {
+  color: color-mix(in srgb, var(--ivory-50) 68%, transparent);
+}
+
+@utility section-pad {
+  padding-block: var(--section-padding-mobile);
+  padding-inline: var(--space-3);
+
+  @media (min-width: 1024px) {
+    padding-block: var(--section-padding-desktop);
+    padding-inline: var(--space-5);
+  }
+}
+
+@layer base {
+  * {
+    border-color: color-mix(in srgb, var(--ivory-50) 16%, transparent);
+  }
+
+  html,
+  body {
+    background-color: var(--ink-900);
+    color: var(--ivory-50);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--lavender);
+    outline-offset: 2px;
+  }
+}
+
+/* Baseline every later packet inherits. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
