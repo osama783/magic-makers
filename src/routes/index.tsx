@@ -432,7 +432,6 @@ function Index() {
 
         {/* ===================== Donate / Contact ===================== */}
         <section id="contact" className="py-20 md:py-28">
-          <div className="container-custom" />
           <div className="container-craft grid gap-12 lg:grid-cols-2">
             {/* Donate panel */}
             <div id="donate" className="surface-card p-8 md:p-10">
