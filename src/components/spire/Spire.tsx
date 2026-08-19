@@ -124,8 +124,9 @@ function SpireTower() {
     <div ref={scope}>
       <div className="spire-stage" style={{ perspective: `${PERSPECTIVE_PX}px` }}>
         <SpireAxis variant="tower" />
-        <div className="spire-rig">
-          {Array.from({ length: SLOT_COUNT }, (_, slot) => {
+        <div className="spire-dolly">
+          <div className="spire-rig">
+            {Array.from({ length: SLOT_COUNT }, (_, slot) => {
             const index = live.find((i) => slotForFloor(i) === slot);
             const floor = index === undefined ? undefined : SPIRE_FLOORS[index];
             const Component = floor?.component;
@@ -134,7 +135,8 @@ function SpireTower() {
                 {Component ? <Component mode="tower" /> : null}
               </SpirePanel>
             );
-          })}
+            })}
+          </div>
         </div>
       </div>
     </div>
