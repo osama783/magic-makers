@@ -7,10 +7,10 @@ export interface CoreCylinderProps {
   glowRef?: (el: HTMLDivElement | null, index: number) => void;
 }
 
-/** The chrome/holographic column with an accent-tinted outer glow. CSS only. */
+/** A near-invisible light filament: 2px core line + accent-tinted haze. CSS only. */
 export function CoreCylinder({ accents, glowRef }: CoreCylinderProps) {
   return (
-    <div className="core-cylinder" aria-hidden="true">
+    <div className="core-filament" aria-hidden="true">
       {accents.map((accent, i) => (
         <div
           key={accent + i}
@@ -20,7 +20,7 @@ export function CoreCylinder({ accents, glowRef }: CoreCylinderProps) {
           style={{ ["--core-accent" as string]: `var(${accent})`, opacity: i === 0 ? 1 : 0 }}
         />
       ))}
-      <div className="core-column" />
+      <div className="core-line" />
       <div className="core-sheen" />
     </div>
   );
