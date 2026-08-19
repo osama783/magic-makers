@@ -95,8 +95,8 @@ export function enterTransform(index: number, count: number, phase: number): Boa
 
 /** Base resting placement of a board on the curved core face. */
 export function boardBase(index: number, count: number): { rotateY: number; z: number } {
-  if (count === 1) return { rotateY: 0, z: 0 };
-  const leftColumn = count === 2 ? index === 0 : index % 2 === 0;
-  const dir = leftColumn ? 1 : -1;
-  return { rotateY: dir * 9, z: -40 };
+  // Boards sit centered on the spine: a single column for 1–2, a tight 2x2 for 3–4.
+  if (count <= 2) return { rotateY: 0, z: 0 };
+  const dir = index % 2 === 0 ? 1 : -1;
+  return { rotateY: dir * 6, z: -24 };
 }
