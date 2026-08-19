@@ -98,12 +98,15 @@
 
 /* Photo height cap so a settled cluster always fits the viewport. */
 .core-photo {
-  max-height: 24vh;
+  /* Fixed viewport-relative height so a settled cluster always fits the screen. */
+  aspect-ratio: auto !important;
+  width: 100%;
+  height: 21vh;
 }
 
 .core-cluster[data-count="1"] .core-photo,
 .core-cluster[data-count="2"] .core-photo {
-  max-height: 30vh;
+  height: 30vh;
 }
 
 .core-board-inner {
