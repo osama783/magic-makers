@@ -66,7 +66,8 @@
   align-items: center;
   justify-items: center;
   justify-content: center;
-  width: min(92vw, 900px);
+  width: fit-content;
+  max-width: min(92vw, 900px);
   margin-inline: auto;
   flex: 0 1 auto;
   min-height: 0;
