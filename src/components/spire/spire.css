@@ -1,0 +1,121 @@
+/*
+ * The Spire — stage / rig / facet geometry.
+ * Transform + opacity + mask only. No blur, no layout animation.
+ */
+
+.spire-stage {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--ink-900);
+  --spire-radius: 60vw;
+}
+
+@media (min-width: 1024px) {
+  .spire-stage {
+    --spire-radius: 46vw;
+  }
+}
+
+.spire-dolly {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* Pull the drum back so the FRONT facet sits at the camera plane instead of
+     being magnified by its own translateZ. */
+  transform: translateZ(calc(-1 * var(--spire-radius)));
+}
+
+.spire-rig {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.spire-slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(78vw, 1100px);
+  height: min(72vh, 760px);
+  margin-left: calc(min(78vw, 1100px) / -2);
+  margin-top: calc(min(72vh, 760px) / -2);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition:
+    opacity 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    scale 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 1023px) {
+  .spire-slot {
+    width: min(84vw, 720px);
+    height: min(66vh, 640px);
+    margin-left: calc(min(84vw, 720px) / -2);
+    margin-top: calc(min(66vh, 640px) / -2);
+  }
+}
+
+.spire-slot[data-front="true"] {
+  opacity: 1;
+  scale: 1;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+.spire-slot[data-front="false"] {
+  opacity: 0.24;
+  scale: 0.92;
+  pointer-events: none;
+}
+
+.spire-facet-inner {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ---- Axis ---- */
+
+.spire-axis {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 320px;
+  margin-left: -160px;
+  pointer-events: none;
+}
+
+.spire-axis-core {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+}
+
+.spire-axis-glow {
+  position: absolute;
+  inset: 0;
+}
+
+.spire-axis-layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---- Flattened stack (mobile / lite / reduced) ---- */
+
+.spire-stack-axis {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 12px;
+  width: 2px;
+}
