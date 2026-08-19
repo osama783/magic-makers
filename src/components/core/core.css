@@ -156,8 +156,8 @@
   color: var(--ivory-50);
   background: linear-gradient(
     160deg,
-    color-mix(in oklab, var(--core-800) 78%, transparent) 0%,
-    color-mix(in oklab, var(--core-void) 86%, transparent) 100%
+    color-mix(in oklab, var(--core-800) 96%, transparent) 0%,
+    color-mix(in oklab, var(--core-void) 98%, transparent) 100%
   );
   backdrop-filter: blur(10px);
   border: 1px solid color-mix(in oklab, var(--core-accent) 55%, transparent);
