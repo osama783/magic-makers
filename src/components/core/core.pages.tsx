@@ -43,7 +43,7 @@ function PhotoBoard({
   return (
     <figure className="m-0">
       <div className="relative">
-        <Picture id={id} aspect="3:2" sizes={BOARD_SIZES} priority={priority} />
+        <Picture id={id} aspect="3:2" sizes={BOARD_SIZES} {...(priority ? { priority } : {})} />
         <div className="core-scrim" aria-hidden="true" />
       </div>
       <figcaption>
