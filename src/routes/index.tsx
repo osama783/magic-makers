@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { seo } from "@/content/seo";
-import { Spire } from "@/components/spire/Spire";
+import { Core } from "@/components/core/Core";
 
 const meta = seo["/"];
 
@@ -20,5 +20,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  return <Spire />;
+  return <Core />;
 }
