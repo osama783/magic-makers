@@ -111,7 +111,7 @@
 
 .core-page-title {
   position: absolute;
-  top: clamp(20px, 6vh, 60px);
+  top: clamp(104px, 12vh, 160px);
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
