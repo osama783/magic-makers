@@ -87,12 +87,22 @@
 .core-board {
   transform-style: preserve-3d;
   width: 100%;
-  max-width: min(clamp(190px, 22vw, 320px), 24vh);
+  max-width: clamp(230px, 24vw, 340px);
 }
 
 .core-cluster[data-count="1"] .core-board,
 .core-cluster[data-count="2"] .core-board {
-  max-width: min(clamp(260px, 34vw, 440px), 52vh);
+  max-width: clamp(280px, 34vw, 460px);
+}
+
+/* Photo height cap so a settled cluster always fits the viewport. */
+.core-photo {
+  max-height: 24vh;
+}
+
+.core-cluster[data-count="1"] .core-photo,
+.core-cluster[data-count="2"] .core-photo {
+  max-height: 30vh;
 }
 
 .core-board-inner {
