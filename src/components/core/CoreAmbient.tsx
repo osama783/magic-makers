@@ -1,29 +1,27 @@
 import type { AccentToken } from "./core.config";
 
-export interface CoreCylinderProps {
-  /** All page accents, in order — one stacked glow layer each. */
+export interface CoreAmbientProps {
+  /** All page accents, in order — one stacked ambient layer each. */
   accents: readonly AccentToken[];
   /** Opacity per accent layer, driven by the scroll rig. */
   glowRef?: (el: HTMLDivElement | null, index: number) => void;
 }
 
-/** A near-invisible light filament: 2px core line + accent-tinted haze. CSS only. */
-export function CoreCylinder({ accents, glowRef }: CoreCylinderProps) {
+/** A faint, wide radial wash behind the cluster — never a bar or column. */
+export function CoreAmbient({ accents, glowRef }: CoreAmbientProps) {
   return (
-    <div className="core-filament" aria-hidden="true">
+    <div className="core-ambient" aria-hidden="true">
       {accents.map((accent, i) => (
         <div
           key={accent + i}
           ref={(el) => glowRef?.(el, i)}
           data-core-glow={i}
-          className="core-glow"
+          className="core-ambient-layer"
           style={{ ["--core-accent" as string]: `var(${accent})`, opacity: i === 0 ? 1 : 0 }}
         />
       ))}
-      <div className="core-line" />
-      <div className="core-sheen" />
     </div>
   );
 }
 
-export default CoreCylinder;
+export default CoreAmbient;

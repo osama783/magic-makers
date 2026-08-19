@@ -27,7 +27,9 @@ const BOARD_SIZES = "(max-width: 768px) 90vw, 26vw";
 
 function Caption({ children }: { children: ReactNode }) {
   return (
-    <p className="px-4 py-3 text-base leading-snug text-[var(--ivory-50)]">{children}</p>
+    <p className="core-caption px-4 py-3 text-base leading-snug text-[var(--ivory-50)]">
+      {children}
+    </p>
   );
 }
 
@@ -43,7 +45,7 @@ function PhotoBoard({
   return (
     <figure className="m-0">
       <div className="relative">
-        <Picture id={id} aspect="3:2" sizes={BOARD_SIZES} {...(priority ? { priority } : {})} />
+        <Picture id={id} aspect="3:2" className="core-photo" sizes={BOARD_SIZES} {...(priority ? { priority } : {})} />
         <div className="core-scrim" aria-hidden="true" />
       </div>
       <figcaption>
@@ -66,6 +68,7 @@ function ThemePortal({ id, blurb }: { id: keyof typeof themeById; blurb: string 
         <Picture
           id={theme.portalPhotoId}
           aspect="1:1"
+          className="core-photo"
           sizes="(max-width: 768px) 62vw, 20vw"
         />
         <div className="core-scrim" aria-hidden="true" />
@@ -99,6 +102,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
               <Picture
                 id="mm-bluey-hero-environment-01"
                 aspect="16:9"
+                className="core-photo"
                 sizes="(max-width: 768px) 90vw, 42vw"
                 priority
               />
