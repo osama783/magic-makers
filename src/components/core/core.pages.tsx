@@ -309,4 +309,60 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
       },
     ],
   },
+  {
+    key: "moments",
+    name: momentsPage.heading,
+    accent: "--acc-mint",
+    title: <PageTitle copy={momentsPage} />,
+    boards: photoBoards(momentsBoards),
+  },
+  {
+    key: "made-for-them",
+    name: madeForThemPage.heading,
+    accent: "--acc-coral",
+    title: <PageTitle copy={madeForThemPage} />,
+    // Alt text is rewritten so no personalized child name is announced.
+    boards: photoBoards(madeForThemBoards, {
+      "made-personalized": "A personalized balloon backdrop and styled dessert table.",
+      "made-character": "A costumed Grinch character greeting a guest at a photo backdrop.",
+    }),
+  },
+  {
+    key: "past-adventures",
+    name: adventuresPage.heading,
+    accent: "--acc-cyan",
+    title: <PageTitle copy={adventuresPage} />,
+    boards: photoBoards(adventuresBoards),
+  },
+  {
+    key: "how-it-works",
+    name: processPage.heading,
+    accent: "--acc-lavender",
+    title: <PageTitle copy={processPage} />,
+    boards: processBoards.map((step) => ({
+      key: step.key,
+      node: <p className="text-base text-[var(--ivory-50)]">{step.body}</p>,
+    })),
+  },
+  {
+    key: "create-their-day",
+    name: createPage.heading,
+    accent: "--acc-butter",
+    title: <PageTitle copy={createPage} />,
+    boards: createBoards.map((board) => ({
+      key: board.key,
+      node: board.href ? (
+        <a
+          href={board.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="core-link flex min-h-11 items-center text-base text-[var(--ivory-50)] underline decoration-[var(--acc-butter)] underline-offset-4"
+        >
+          {board.body}
+        </a>
+      ) : (
+        <p className="text-base text-[var(--ivory-50)]">{board.body}</p>
+      ),
+    })),
+  },
 ] as const;
