@@ -87,7 +87,7 @@
 .core-board {
   transform-style: preserve-3d;
   width: 100%;
-  max-width: min(clamp(220px, 24vw, 340px), 34vh);
+  max-width: min(clamp(190px, 22vw, 320px), 24vh);
 }
 
 .core-cluster[data-count="1"] .core-board,
