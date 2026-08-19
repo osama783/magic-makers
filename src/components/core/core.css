@@ -14,81 +14,24 @@
   isolation: isolate;
 }
 
-/* ---- The filament (thin light line, mostly transparent) ---- */
+/* ---- Ambient accent wash (no pole, no line) ---- */
 
-.core-filament {
+.core-ambient {
   position: absolute;
-  top: -6vh;
-  bottom: -6vh;
-  left: 50%;
-  width: 2px;
-  margin-left: -1px;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
 }
 
-.core-line {
+.core-ambient-layer {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    color-mix(in oklab, var(--chrome) 70%, transparent) 12%,
-    color-mix(in oklab, var(--ivory-50) 92%, transparent) 50%,
-    color-mix(in oklab, var(--chrome) 70%, transparent) 88%,
-    transparent 100%
-  );
-  opacity: 0.9;
-}
-
-.core-sheen {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    color-mix(in oklab, white 85%, transparent) 48%,
-    color-mix(in oklab, white 95%, transparent) 50%,
-    color-mix(in oklab, white 85%, transparent) 52%,
-    transparent 100%
-  );
-  background-size: 100% 220%;
-  background-position: 0% 0%;
-  opacity: 0.6;
-  mix-blend-mode: screen;
-}
-
-.core-stage[data-animate="true"] .core-sheen {
-  animation: core-sheen-drift 9s linear infinite;
-}
-
-@keyframes core-sheen-drift {
-  from {
-    background-position: 0% -60%;
-  }
-  to {
-    background-position: 0% 160%;
-  }
-}
-
-.core-glow {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 60px;
-  margin-left: -30px;
   opacity: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    color-mix(in oklab, var(--core-accent) 8%, transparent) 28%,
-    color-mix(in oklab, var(--core-accent) 55%, transparent) 50%,
-    color-mix(in oklab, var(--core-accent) 8%, transparent) 72%,
-    transparent 100%
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 52%,
+    color-mix(in oklab, var(--core-accent) 12%, transparent) 0%,
+    transparent 70%
   );
-  mask: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
 }
 
 /* ---- Clusters + boards ---- */
@@ -96,8 +39,12 @@
 .core-page {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vh, 36px);
+  padding: clamp(96px, 13vh, 150px) 4vw clamp(48px, 8vh, 90px);
   transform-style: preserve-3d;
   z-index: 1;
 }
@@ -107,12 +54,9 @@
 }
 
 .core-page-title {
-  position: absolute;
-  top: clamp(104px, 12vh, 160px);
-  left: 50%;
-  transform: translateX(-50%);
   text-align: center;
   width: min(90vw, 720px);
+  flex: 0 0 auto;
 }
 
 .core-cluster {
@@ -183,9 +127,15 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    transparent 30%,
-    color-mix(in oklab, var(--core-void) 82%, transparent) 100%
+    transparent 35%,
+    color-mix(in oklab, var(--core-void) 60%, transparent) 70%,
+    color-mix(in oklab, var(--core-void) 92%, transparent) 100%
   );
+}
+
+/* Caption strip under photos: solid deep panel so text is always AA legible. */
+.core-caption {
+  background: color-mix(in oklab, var(--core-void) 92%, transparent);
 }
 
 /* ---- Flat stack (mobile / lite / reduced) ---- */
