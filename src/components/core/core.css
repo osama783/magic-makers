@@ -44,7 +44,7 @@
   align-items: center;
   justify-content: center;
   gap: clamp(16px, 3vh, 36px);
-  padding: clamp(96px, 13vh, 150px) 4vw clamp(48px, 8vh, 90px);
+  padding: clamp(132px, 17vh, 180px) 4vw clamp(40px, 6vh, 72px);
   transform-style: preserve-3d;
   z-index: 1;
 }
@@ -87,12 +87,12 @@
 .core-board {
   transform-style: preserve-3d;
   width: 100%;
-  max-width: clamp(260px, 30vw, 420px);
+  max-width: min(clamp(220px, 24vw, 340px), 34vh);
 }
 
 .core-cluster[data-count="1"] .core-board,
 .core-cluster[data-count="2"] .core-board {
-  max-width: clamp(280px, 40vw, 520px);
+  max-width: min(clamp(260px, 34vw, 440px), 52vh);
 }
 
 .core-board-inner {
