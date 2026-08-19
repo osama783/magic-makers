@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { pinScrub } from "@/anim/primitives";
 import { useScrollScene } from "@/anim/useScrollScene";
 import { motionProfile } from "@/anim/shouldAnimate";
-import { CoreCylinder } from "./CoreCylinder";
+import { CoreAmbient } from "./CoreAmbient";
 import { CorePage } from "./CorePage";
 import { CoreStack } from "./CoreStack";
 import { CORE_PAGES } from "./core.pages";
@@ -101,7 +101,7 @@ function CoreOrbit() {
   return (
     <div ref={scope}>
       <div className="core-stage" data-animate="true" style={{ perspective: `${PERSPECTIVE_PX}px` }}>
-        <CoreCylinder
+        <CoreAmbient
           accents={ACCENTS}
           glowRef={(el, i) => {
             glowRefs.current[i] = el;
