@@ -68,6 +68,8 @@
   justify-content: center;
   width: min(92vw, 900px);
   margin-inline: auto;
+  flex: 0 1 auto;
+  min-height: 0;
 }
 
 /* 1–2 boards: one centered column stacked on the spine. */

@@ -27,7 +27,9 @@ const BOARD_SIZES = "(max-width: 768px) 90vw, 26vw";
 
 function Caption({ children }: { children: ReactNode }) {
   return (
-    <p className="px-4 py-3 text-base leading-snug text-[var(--ivory-50)]">{children}</p>
+    <p className="core-caption px-4 py-3 text-base leading-snug text-[var(--ivory-50)]">
+      {children}
+    </p>
   );
 }
 
