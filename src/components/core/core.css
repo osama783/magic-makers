@@ -14,52 +14,47 @@
   isolation: isolate;
 }
 
-/* ---- The cylinder ---- */
+/* ---- The filament (thin light line, mostly transparent) ---- */
 
-.core-cylinder {
+.core-filament {
   position: absolute;
   top: -6vh;
   bottom: -6vh;
   left: 50%;
-  width: clamp(90px, 9vw, 140px);
-  margin-left: calc(clamp(90px, 9vw, 140px) / -2);
+  width: 2px;
+  margin-left: -1px;
   pointer-events: none;
-  transform-style: preserve-3d;
-  will-change: transform;
   z-index: 0;
 }
 
-.core-column {
+.core-line {
   position: absolute;
   inset: 0;
-  border-radius: 999px;
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(in oklab, var(--core-800) 92%, black) 0%,
-      color-mix(in oklab, var(--chrome) 55%, var(--core-800)) 28%,
-      var(--chrome) 46%,
-      color-mix(in oklab, var(--chrome) 40%, var(--core-800)) 62%,
-      color-mix(in oklab, var(--core-800) 88%, black) 100%
-    );
-  opacity: 0.85;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in oklab, var(--chrome) 70%, transparent) 12%,
+    color-mix(in oklab, var(--ivory-50) 92%, transparent) 50%,
+    color-mix(in oklab, var(--chrome) 70%, transparent) 88%,
+    transparent 100%
+  );
+  opacity: 0.9;
 }
 
 .core-sheen {
   position: absolute;
   inset: 0;
-  border-radius: 999px;
   background: linear-gradient(
     180deg,
     transparent 0%,
-    color-mix(in oklab, var(--chrome) 70%, transparent) 42%,
-    color-mix(in oklab, white 60%, transparent) 50%,
-    color-mix(in oklab, var(--chrome) 70%, transparent) 58%,
+    color-mix(in oklab, white 85%, transparent) 48%,
+    color-mix(in oklab, white 95%, transparent) 50%,
+    color-mix(in oklab, white 85%, transparent) 52%,
     transparent 100%
   );
   background-size: 100% 220%;
   background-position: 0% 0%;
-  opacity: 0.35;
+  opacity: 0.6;
   mix-blend-mode: screen;
 }
 
@@ -81,17 +76,19 @@
   top: 0;
   bottom: 0;
   left: 50%;
-  width: 64vw;
-  margin-left: -32vw;
-  border-radius: 999px;
+  width: 60px;
+  margin-left: -30px;
   opacity: 0;
   pointer-events: none;
-  background: radial-gradient(
-    closest-side ellipse at 50% 50%,
-    color-mix(in oklab, var(--core-accent) 55%, transparent) 0%,
-    color-mix(in oklab, var(--core-accent) 22%, transparent) 34%,
-    transparent 72%
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--core-accent) 8%, transparent) 28%,
+    color-mix(in oklab, var(--core-accent) 55%, transparent) 50%,
+    color-mix(in oklab, var(--core-accent) 8%, transparent) 72%,
+    transparent 100%
   );
+  mask: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
 }
 
 /* ---- Clusters + boards ---- */
@@ -120,29 +117,36 @@
 
 .core-cluster {
   display: grid;
-  gap: clamp(16px, 2.4vh, 28px) clamp(180px, 22vw, 340px);
+  gap: clamp(14px, 2vh, 24px) clamp(28px, 3.4vw, 52px);
   transform-style: preserve-3d;
   align-items: center;
   justify-items: center;
+  justify-content: center;
+  width: min(92vw, 900px);
+  margin-inline: auto;
 }
 
-.core-cluster[data-count="1"] {
-  grid-template-columns: 1fr;
+/* 1–2 boards: one centered column stacked on the spine. */
+.core-cluster[data-count="1"],
+.core-cluster[data-count="2"] {
+  grid-template-columns: minmax(0, 1fr);
 }
 
-.core-cluster[data-count="2"],
+/* 3–4 boards: tight 2x2 centered on the spine, filament glowing through the seam. */
 .core-cluster[data-count="3"],
 .core-cluster[data-count="4"] {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .core-board {
   transform-style: preserve-3d;
-  width: clamp(240px, 25vw, 400px);
+  width: 100%;
+  max-width: clamp(260px, 30vw, 420px);
 }
 
-.core-cluster[data-count="1"] .core-board {
-  width: clamp(280px, 42vw, 560px);
+.core-cluster[data-count="1"] .core-board,
+.core-cluster[data-count="2"] .core-board {
+  max-width: clamp(280px, 40vw, 520px);
 }
 
 .core-board-inner {
