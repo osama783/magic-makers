@@ -32,6 +32,9 @@ export const portal: TransitionFn = (tl, els, position, duration) => {
       clipPath: "circle(78% at 50% 50%)",
       duration,
       ease: gsapEaseNames.reveal,
+      // Facet slots are recycled, so a later floor's "from" state must never
+      // be stamped onto the slot at build time.
+      immediateRender: false,
     },
     position,
   );
@@ -45,7 +48,7 @@ export const storybook: TransitionFn = (tl, els, position, duration) => {
   tl.fromTo(
     els.incoming,
     { opacity: 0, y: 12 },
-    { opacity: 1, y: 0, duration, ease: gsapEaseNames.reveal },
+    { opacity: 1, y: 0, duration, ease: gsapEaseNames.reveal, immediateRender: false },
     position,
   );
   if (els.outgoing) {
@@ -58,7 +61,7 @@ export const objectWipe: TransitionFn = (tl, els, position, duration) => {
   tl.fromTo(
     els.incoming,
     { opacity: 1, clipPath: "inset(0% 100% 0% 0%)" },
-    { clipPath: "inset(0% 0% 0% 0%)", duration, ease: gsapEaseNames.reveal },
+    { clipPath: "inset(0% 0% 0% 0%)", duration, ease: gsapEaseNames.reveal, immediateRender: false },
     position,
   );
   if (els.outgoing) {
