@@ -4,6 +4,20 @@ import { Picture } from "@/components/media/Picture";
 import { Doodle } from "@/components/media/Doodle";
 import { site } from "@/content/site";
 import { themeById } from "@/content/themes";
+import {
+  adventuresBoards,
+  adventuresPage,
+  createBoards,
+  createPage,
+  madeForThemBoards,
+  madeForThemPage,
+  momentsBoards,
+  momentsPage,
+  processBoards,
+  processPage,
+  type CoreCopyPage,
+  type CorePhotoCopy,
+} from "@/content/coreCopy";
 import type { PhotoAssetId } from "@/assets/photos.registry";
 import type { AccentToken } from "./core.config";
 
@@ -37,15 +51,27 @@ function PhotoBoard({
   id,
   caption,
   priority,
+  objectPosition,
+  alt,
 }: {
   id: PhotoAssetId;
   caption: ReactNode;
   priority?: boolean;
+  objectPosition?: string;
+  alt?: string;
 }) {
   return (
     <figure className="m-0">
       <div className="relative">
-        <Picture id={id} aspect="3:2" className="core-photo" sizes={BOARD_SIZES} {...(priority ? { priority } : {})} />
+        <Picture
+          id={id}
+          aspect="3:2"
+          className="core-photo"
+          sizes={BOARD_SIZES}
+          {...(priority ? { priority } : {})}
+          {...(objectPosition ? { objectPosition } : {})}
+          {...(alt ? { alt } : {})}
+        />
         <div className="core-scrim" aria-hidden="true" />
       </div>
       <figcaption>
@@ -53,6 +79,35 @@ function PhotoBoard({
       </figcaption>
     </figure>
   );
+}
+
+function PageTitle({ copy }: { copy: CoreCopyPage }) {
+  return (
+    <>
+      <h2 className="font-[family-name:var(--font-serif)] text-3xl leading-tight text-[var(--ivory-50)]">
+        {copy.heading}
+      </h2>
+      <p className="mt-2 text-base text-[var(--ivory-50)] opacity-[var(--text-muted-opacity)]">
+        {copy.intro}
+      </p>
+    </>
+  );
+}
+
+/** Copy-driven photo boards, used by pages 5–7. */
+function photoBoards(items: CorePhotoCopy[], altOverrides: Partial<Record<string, string>> = {}) {
+  return items.map((item) => ({
+    key: item.key,
+    flush: true,
+    node: (
+      <PhotoBoard
+        id={item.photoId}
+        caption={item.caption}
+        {...(item.objectPosition ? { objectPosition: item.objectPosition } : {})}
+        {...(altOverrides[item.key] ? { alt: altOverrides[item.key] as string } : {})}
+      />
+    ),
+  }));
 }
 
 function ThemePortal({ id, blurb }: { id: keyof typeof themeById; blurb: string }) {
