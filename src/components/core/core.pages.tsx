@@ -4,6 +4,20 @@ import { Picture } from "@/components/media/Picture";
 import { Doodle } from "@/components/media/Doodle";
 import { site } from "@/content/site";
 import { themeById } from "@/content/themes";
+import {
+  adventuresBoards,
+  adventuresPage,
+  createBoards,
+  createPage,
+  madeForThemBoards,
+  madeForThemPage,
+  momentsBoards,
+  momentsPage,
+  processBoards,
+  processPage,
+  type CoreCopyPage,
+  type CorePhotoCopy,
+} from "@/content/coreCopy";
 import type { PhotoAssetId } from "@/assets/photos.registry";
 import type { AccentToken } from "./core.config";
 
@@ -37,15 +51,27 @@ function PhotoBoard({
   id,
   caption,
   priority,
+  objectPosition,
+  alt,
 }: {
   id: PhotoAssetId;
   caption: ReactNode;
   priority?: boolean;
+  objectPosition?: string;
+  alt?: string;
 }) {
   return (
     <figure className="m-0">
       <div className="relative">
-        <Picture id={id} aspect="3:2" className="core-photo" sizes={BOARD_SIZES} {...(priority ? { priority } : {})} />
+        <Picture
+          id={id}
+          aspect="3:2"
+          className="core-photo"
+          sizes={BOARD_SIZES}
+          {...(priority ? { priority } : {})}
+          {...(objectPosition ? { objectPosition } : {})}
+          {...(alt ? { alt } : {})}
+        />
         <div className="core-scrim" aria-hidden="true" />
       </div>
       <figcaption>
@@ -53,6 +79,35 @@ function PhotoBoard({
       </figcaption>
     </figure>
   );
+}
+
+function PageTitle({ copy }: { copy: CoreCopyPage }) {
+  return (
+    <>
+      <h2 className="font-[family-name:var(--font-serif)] text-3xl leading-tight text-[var(--ivory-50)]">
+        {copy.heading}
+      </h2>
+      <p className="mt-2 text-base text-[var(--ivory-50)] opacity-[var(--text-muted-opacity)]">
+        {copy.intro}
+      </p>
+    </>
+  );
+}
+
+/** Copy-driven photo boards, used by pages 5–7. */
+function photoBoards(items: CorePhotoCopy[], altOverrides: Partial<Record<string, string>> = {}) {
+  return items.map((item) => ({
+    key: item.key,
+    flush: true,
+    node: (
+      <PhotoBoard
+        id={item.photoId}
+        caption={item.caption}
+        {...(item.objectPosition ? { objectPosition: item.objectPosition } : {})}
+        {...(altOverrides[item.key] ? { alt: altOverrides[item.key] as string } : {})}
+      />
+    ),
+  }));
 }
 
 function ThemePortal({ id, blurb }: { id: keyof typeof themeById; blurb: string }) {
@@ -253,5 +308,61 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
         ),
       },
     ],
+  },
+  {
+    key: "moments",
+    name: momentsPage.heading,
+    accent: "--acc-mint",
+    title: <PageTitle copy={momentsPage} />,
+    boards: photoBoards(momentsBoards),
+  },
+  {
+    key: "made-for-them",
+    name: madeForThemPage.heading,
+    accent: "--acc-coral",
+    title: <PageTitle copy={madeForThemPage} />,
+    // Alt text is rewritten so no personalized child name is announced.
+    boards: photoBoards(madeForThemBoards, {
+      "made-personalized": "A personalized balloon backdrop and styled dessert table.",
+      "made-character": "A costumed Grinch character greeting a guest at a photo backdrop.",
+    }),
+  },
+  {
+    key: "past-adventures",
+    name: adventuresPage.heading,
+    accent: "--acc-cyan",
+    title: <PageTitle copy={adventuresPage} />,
+    boards: photoBoards(adventuresBoards),
+  },
+  {
+    key: "how-it-works",
+    name: processPage.heading,
+    accent: "--acc-lavender",
+    title: <PageTitle copy={processPage} />,
+    boards: processBoards.map((step) => ({
+      key: step.key,
+      node: <p className="text-base text-[var(--ivory-50)]">{step.body}</p>,
+    })),
+  },
+  {
+    key: "create-their-day",
+    name: createPage.heading,
+    accent: "--acc-butter",
+    title: <PageTitle copy={createPage} />,
+    boards: createBoards.map((board) => ({
+      key: board.key,
+      node: board.href ? (
+        <a
+          href={board.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="core-link flex min-h-11 items-center text-base text-[var(--ivory-50)] underline decoration-[var(--acc-butter)] underline-offset-4"
+        >
+          {board.body}
+        </a>
+      ) : (
+        <p className="text-base text-[var(--ivory-50)]">{board.body}</p>
+      ),
+    })),
   },
 ] as const;
