@@ -205,30 +205,6 @@ function HandleText({ body }: { body: string }) {
   );
 }
 
-function ThemePortalLegacy({ id, blurb }: { id: keyof typeof themeById; blurb: string }) {
-  const theme = themeById[id];
-  return (
-    <Link
-      to="/worlds/$slug"
-      params={{ slug: theme.slug }}
-      className="core-link block min-h-11"
-      aria-label={`${theme.label} — ${blurb}`}
-      style={{ ["--core-accent" as string]: `var(${THEME_ACCENT[theme.id]})` }}
-    >
-      <div className="relative">
-        <Picture
-          id={theme.portalPhotoId}
-          aspect="1:1"
-          className="core-photo"
-          sizes="(max-width: 768px) 62vw, 20vw"
-        />
-        <div className="core-scrim" aria-hidden="true" />
-      </div>
-      <Caption>{blurb}</Caption>
-    </Link>
-  );
-}
-
 export const CORE_PAGES: readonly CorePageSpec[] = [
   {
     key: "invitation",
