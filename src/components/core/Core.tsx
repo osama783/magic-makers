@@ -37,6 +37,57 @@ export function Core() {
 
 const ACCENTS = CORE_PAGES.map((p) => p.accent);
 
+/** Cached gsap.quickSetter per element so per-frame writes don't re-parse
+ *  transform props every frame (the source of desktop chunkiness). Remounted
+ *  clusters get fresh setters automatically since the WeakMap keys on the
+ *  element instance. */
+type SetterBag = {
+  x: (v: number) => void;
+  y: (v: number) => void;
+  z: (v: number) => void;
+  rotateY: (v: number) => void;
+  scale: (v: number) => void;
+  opacity: (v: number) => void;
+};
+const setters = new WeakMap<HTMLElement, SetterBag>();
+function boardSetter(el: HTMLElement): SetterBag {
+  let s = setters.get(el);
+  if (!s) {
+    s = {
+      x: gsap.quickSetter(el, "x", "px"),
+      y: gsap.quickSetter(el, "y", "px"),
+      z: gsap.quickSetter(el, "z", "px"),
+      rotateY: gsap.quickSetter(el, "rotateY", "deg"),
+      scale: gsap.quickSetter(el, "scale"),
+      opacity: gsap.quickSetter(el, "opacity"),
+    };
+    setters.set(el, s);
+  }
+  return s;
+}
+type TitleSetterBag = { y: (v: number) => void; opacity: (v: number) => void };
+const titleSetters = new WeakMap<HTMLElement, TitleSetterBag>();
+function titleSetter(el: HTMLElement): TitleSetterBag {
+  let s = titleSetters.get(el);
+  if (!s) {
+    s = {
+      y: gsap.quickSetter(el, "y", "px"),
+      opacity: gsap.quickSetter(el, "opacity"),
+    };
+    titleSetters.set(el, s);
+  }
+  return s;
+}
+const glowSetters = new WeakMap<HTMLElement, (v: number) => void>();
+function glowSetter(el: HTMLElement): (v: number) => void {
+  let s = glowSetters.get(el);
+  if (!s) {
+    s = gsap.quickSetter(el, "opacity");
+    glowSetters.set(el, s);
+  }
+  return s;
+}
+
 function CoreOrbit() {
   const [active, setActive] = useState(0);
   const glowRefs = useRef<Array<HTMLDivElement | null>>([]);
