@@ -337,9 +337,9 @@ a.core-link {
 
 .core-snap {
   position: relative;
-  /* The root <main> already reserves the header (pt-20) and the sticky CTA
+  /* The root <main> already reserves the header (pt-12) and the sticky CTA
      (pb-24) on mobile, so the scroller fills exactly what is left. */
-  height: calc(100svh - 5rem - 6rem);
+  height: calc(100svh - 3rem - 6rem);
   display: flex;
   flex-direction: row;
   overflow-x: auto;
