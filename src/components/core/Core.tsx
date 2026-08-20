@@ -89,7 +89,10 @@ function CoreOrbit() {
     // Touch-only: normalize scroll so a pinned gesture advances smoothly
     // instead of jumping with the browser's async scrolling. Desktop is
     // left exactly as it was.
-    if (ScrollTrigger.isTouch === 1) ScrollTrigger.normalizeScroll(true);
+    if (ScrollTrigger.isTouch === 1) {
+      ScrollTrigger.normalizeScroll(true);
+      ScrollTrigger.config({ ignoreMobileResize: true });
+    }
 
     // ONE scroll driver for the whole core (desktop and touch alike).
     const tl = gsap.timeline({
@@ -99,7 +102,6 @@ function CoreOrbit() {
         end: `+=${CORE_PAGES.length * 100}%`,
         pin: true,
         pinType: ScrollTrigger.isTouch ? "transform" : "fixed",
-        ignoreMobileResize: true,
         scrub: 0.6,
         anticipatePin: 1,
         invalidateOnRefresh: true,
