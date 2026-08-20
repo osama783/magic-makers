@@ -84,32 +84,18 @@ function CoreOrbit() {
       setActive((prev) => (prev === next ? prev : next));
     };
 
-    // Touch-only: normalize scroll so a pinned gesture advances smoothly
-    // instead of jumping with the browser's async scrolling. Desktop is
-    // left exactly as it was.
-    if (ScrollTrigger.isTouch === 1) {
-      ScrollTrigger.normalizeScroll(true);
-      ScrollTrigger.config({ ignoreMobileResize: true });
-    }
-
-    // ONE scroll driver for the whole core (desktop and touch alike).
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: stage,
-        start: "top top",
-        end: `+=${CORE_PAGES.length * 100}%`,
-        pin: true,
-        pinType: ScrollTrigger.isTouch ? "transform" : "fixed",
-        scrub: 0.6,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
+    // ONE scroll driver for the whole core — the tuned pinScrub primitive
+    // (uses scroll.scrub token + correct pin config).
+    pinScrub(stage, {
+      end: `+=${CORE_PAGES.length * 100}%`,
+      build: (tl) => {
+        tl.to(state, {
+          p: CORE_PAGES.length - 1,
+          duration: 1,
+          ease: "none",
+          onUpdate: apply,
+        });
       },
-    });
-    tl.to(state, {
-      p: CORE_PAGES.length - 1,
-      duration: 1,
-      ease: "none",
-      onUpdate: apply,
     });
 
     // Slow ambient float, applied to the inner wrapper so it never fights
