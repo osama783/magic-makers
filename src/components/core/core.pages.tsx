@@ -177,7 +177,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
             <p className="text-sm tracking-[0.28em] text-[var(--acc-lavender)]">
               {site.tagline}
             </p>
-            <Doodle name="star" variant="glow" size={34} className="text-[var(--acc-lavender)]" />
+            <BoardDoodle name="star" />
             <h1 className="font-[family-name:var(--font-serif)] text-5xl leading-tight text-[var(--ivory-50)] md:text-6xl">
               {site.brandName}
             </h1>
