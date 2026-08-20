@@ -52,7 +52,6 @@
 .core-doodle {
   display: inline-flex;
   color: var(--core-accent);
-  will-change: transform;
 }
 
 .core-doodle-drift {
@@ -139,12 +138,9 @@
   border-radius: 6px;
   padding: clamp(16px, 1.6vw, 26px);
   color: var(--ivory-50);
-  background: linear-gradient(
-    160deg,
-    color-mix(in oklab, var(--core-800) 96%, transparent) 0%,
-    color-mix(in oklab, var(--core-void) 98%, transparent) 100%
-  );
-  backdrop-filter: blur(10px);
+  /* Fully solid (no backdrop-filter) — visually near-identical but removes
+     the per-frame blur recompute that was chunking desktop scroll. */
+  background: linear-gradient(160deg, var(--core-800) 0%, var(--core-void) 100%);
   border: 1px solid color-mix(in oklab, var(--core-accent) 55%, transparent);
   will-change: transform, opacity;
 }
