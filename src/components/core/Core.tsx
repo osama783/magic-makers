@@ -87,6 +87,9 @@ function CoreOrbit() {
     };
 
     // ONE scroll driver for the whole core (desktop and touch alike).
+    // Touch needs normalized scroll so a pinned gesture advances smoothly
+    // instead of jumping with the browser's async scroll.
+    ScrollTrigger.normalizeScroll(true);
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: stage,
