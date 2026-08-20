@@ -164,6 +164,71 @@ function ThemePortal({ id, blurb }: { id: keyof typeof themeById; blurb: string 
   );
 }
 
+const PROCESS_DOODLES: DoodleName[] = ["wand", "paintbrush", "drum", "gift"];
+const IG_LABEL = "MagicMinds on Instagram (opens in a new tab)";
+
+/** The finale CTA: instagram glyph + accent-haloed handle, ≥44px target. */
+function InstagramCta() {
+  return (
+    <a
+      href={site.instagram.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={IG_LABEL}
+      className="core-link core-ig-cta"
+    >
+      <Doodle name="instagram" variant="glow" size={30} />
+      <span className="core-ig-handle text-lg">{site.instagram.handle}</span>
+    </a>
+  );
+}
+
+/** Renders copy verbatim, turning the handle inside it into a real link. */
+function HandleText({ body }: { body: string }) {
+  const handle = site.instagram.handle;
+  const at = body.indexOf(handle);
+  if (at < 0) return <>{body}</>;
+  return (
+    <>
+      {body.slice(0, at)}
+      <a
+        href={site.instagram.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={IG_LABEL}
+        className="core-ig-handle core-link inline-flex min-h-11 items-center"
+      >
+        {handle}
+      </a>
+      {body.slice(at + handle.length)}
+    </>
+  );
+}
+
+function ThemePortalLegacy({ id, blurb }: { id: keyof typeof themeById; blurb: string }) {
+  const theme = themeById[id];
+  return (
+    <Link
+      to="/worlds/$slug"
+      params={{ slug: theme.slug }}
+      className="core-link block min-h-11"
+      aria-label={`${theme.label} — ${blurb}`}
+      style={{ ["--core-accent" as string]: `var(${THEME_ACCENT[theme.id]})` }}
+    >
+      <div className="relative">
+        <Picture
+          id={theme.portalPhotoId}
+          aspect="1:1"
+          className="core-photo"
+          sizes="(max-width: 768px) 62vw, 20vw"
+        />
+        <div className="core-scrim" aria-hidden="true" />
+      </div>
+      <Caption>{blurb}</Caption>
+    </Link>
+  );
+}
+
 export const CORE_PAGES: readonly CorePageSpec[] = [
   {
     key: "invitation",
