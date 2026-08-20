@@ -114,21 +114,24 @@ function CoreOrbit() {
               : leaving
                 ? exitTransform(i, count, phase)
                 : enterTransform(i, count, phase);
-          gsap.set(el, {
-            x: t.x,
-            y: t.y,
-            z: t.z,
-            rotateY: t.rotateY,
-            scale: t.scale,
-            opacity: t.opacity,
-          });
+          const s = boardSetter(el);
+          s.x(t.x);
+          s.y(t.y);
+          s.z(t.z);
+          s.rotateY(t.rotateY);
+          s.scale(t.scale);
+          s.opacity(t.opacity);
         });
         const title = pageEl.querySelector<HTMLElement>("[data-core-title]");
-        if (title) gsap.set(title, { opacity: 1 - phase, y: -30 * phase });
+        if (title) {
+          const ts = titleSetter(title);
+          ts.opacity(1 - phase);
+          ts.y(-30 * phase);
+        }
       });
 
       glowRefs.current.forEach((el, i) => {
-        if (el) gsap.set(el, { opacity: clamp01(1 - Math.abs(p - i)) });
+        if (el) glowSetter(el)(clamp01(1 - Math.abs(p - i)));
       });
 
       const next = Math.min(CORE_PAGES.length - 1, Math.max(0, Math.round(p)));
