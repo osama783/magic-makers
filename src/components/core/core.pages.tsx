@@ -183,28 +183,6 @@ function InstagramCta() {
   );
 }
 
-/** Renders copy verbatim, turning the handle inside it into a real link. */
-function HandleText({ body }: { body: string }) {
-  const handle = site.instagram.handle;
-  const at = body.indexOf(handle);
-  if (at < 0) return <>{body}</>;
-  return (
-    <>
-      {body.slice(0, at)}
-      <a
-        href={site.instagram.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={IG_LABEL}
-        className="core-ig-handle core-link inline-flex min-h-11 items-center"
-      >
-        {handle}
-      </a>
-      {body.slice(at + handle.length)}
-    </>
-  );
-}
-
 export const CORE_PAGES: readonly CorePageSpec[] = [
   {
     key: "invitation",
@@ -216,9 +194,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
         key: "invitation-card",
         node: (
           <div className="flex flex-col items-center gap-4 text-center">
-            <p className="text-sm tracking-[0.28em] text-[var(--acc-lavender)]">
-              {site.tagline}
-            </p>
+            <p className="text-sm tracking-[0.28em] text-[var(--acc-lavender)]">{site.tagline}</p>
             <BoardDoodle name="star" />
             <h1 className="font-[family-name:var(--font-serif)] text-5xl leading-tight text-[var(--ivory-50)] md:text-6xl">
               {site.brandName}
@@ -351,8 +327,8 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
           <div className="flex flex-col gap-3">
             <BoardDoodle name="bunting" />
             <p className="text-base text-[var(--ivory-50)]">
-              Design &amp; Styling — themed top to bottom: backdrops, balloon garlands, linens,
-              florals, signage.
+              Design &amp; Styling: From the first mood board to the final balloon, we style every
+              inch to their theme — backdrops, garlands, linens, and signage included.
             </p>
           </div>
         ),
@@ -363,7 +339,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
         node: (
           <PhotoBoard
             id="mm-monster-setup-carwash-01"
-            caption="Setup & Teardown — we build the entire world, and clear every trace when it's over."
+            caption="Setup & Teardown: We show up, build the whole world, and quietly clear it all away — you never fold a single chair."
           />
         ),
       },
@@ -373,7 +349,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
         node: (
           <PhotoBoard
             id="mm-patriotic-hero-environment-01"
-            caption="Furniture & Equipment — kids' tables and chairs, bounce castles, ball pits, slides, stations."
+            caption="Furniture & Equipment: Kid-sized tables, bounce castles, ball pits, slides — hauled in and ready before the first guest arrives."
           />
         ),
       },
@@ -383,7 +359,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
         node: (
           <PhotoBoard
             id="mm-grinch-backdrop-delilah-01"
-            caption="Treats & Catering — dessert tables and party spreads styled to match."
+            caption="Treats & Catering: Dessert tables and party spreads styled to match, so every treat looks as good as it tastes."
           />
         ),
       },
@@ -448,7 +424,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
             <p className="text-base text-[var(--ivory-50)]">{board.body}</p>
             <InstagramCta />
             <p className="text-base text-[var(--ivory-50)]">
-              <HandleText body={"follow" in board ? board.follow : ""} />
+              {"follow" in board ? board.follow : ""}
             </p>
           </div>
         ) : (

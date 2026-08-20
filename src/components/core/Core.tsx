@@ -89,7 +89,10 @@ function CoreOrbit() {
     // Touch-only: normalize scroll so a pinned gesture advances smoothly
     // instead of jumping with the browser's async scrolling. Desktop is
     // left exactly as it was.
-    if (ScrollTrigger.isTouch === 1) ScrollTrigger.normalizeScroll(true);
+    if (ScrollTrigger.isTouch === 1) {
+      ScrollTrigger.normalizeScroll(true);
+      ScrollTrigger.config({ ignoreMobileResize: true });
+    }
 
     // ONE scroll driver for the whole core (desktop and touch alike).
     const tl = gsap.timeline({
@@ -98,6 +101,7 @@ function CoreOrbit() {
         start: "top top",
         end: `+=${CORE_PAGES.length * 100}%`,
         pin: true,
+        pinType: ScrollTrigger.isTouch ? "transform" : "fixed",
         scrub: 0.6,
         anticipatePin: 1,
         invalidateOnRefresh: true,
@@ -136,13 +140,15 @@ function CoreOrbit() {
   );
 
   // Only the outgoing, active and incoming clusters are mounted.
-  const live = [active - 1, active, active + 1].filter(
-    (i) => i >= 0 && i < CORE_PAGES.length,
-  );
+  const live = [active - 1, active, active + 1].filter((i) => i >= 0 && i < CORE_PAGES.length);
 
   return (
     <div ref={scope}>
-      <div className="core-stage" data-animate="true" style={{ perspective: `${PERSPECTIVE_PX}px` }}>
+      <div
+        className="core-stage"
+        data-animate="true"
+        style={{ perspective: `${PERSPECTIVE_PX}px` }}
+      >
         <CoreAmbient
           accents={ACCENTS}
           glowRef={(el, i) => {
