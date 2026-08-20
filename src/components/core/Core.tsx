@@ -74,12 +74,6 @@ function CoreOrbit() {
         });
         const title = pageEl.querySelector<HTMLElement>("[data-core-title]");
         if (title) gsap.set(title, { opacity: 1 - phase, y: -30 * phase });
-
-        // Doodles drift a touch independently of their board (tiny parallax).
-        pageEl.querySelectorAll<HTMLElement>("[data-core-doodle]").forEach((el, i) => {
-          const dir = i % 2 === 0 ? -1 : 1;
-          gsap.set(el, { x: dir * 6 * phase, y: -10 * phase });
-        });
       });
 
       glowRefs.current.forEach((el, i) => {
