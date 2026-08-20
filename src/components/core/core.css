@@ -277,12 +277,22 @@ a.core-link {
 @media (max-width: 767px) {
   .core-stage {
     perspective: 900px;
+    height: 100svh;
   }
 
   .core-page {
-    padding: 116px 4vw 20px;
+    padding: 104px 4vw 96px;
     gap: 10px;
     justify-content: flex-start;
+  }
+
+  /* Hero title lives inside a board, not the page title slot. */
+  .core-board-inner h1 {
+    font-size: 2.25rem;
+  }
+
+  .core-board-inner h2 {
+    font-size: 1.35rem;
   }
 
   .core-page-title h1,
@@ -332,6 +342,11 @@ a.core-link {
 
   .core-cluster[data-count="1"] .core-photo,
   .core-cluster[data-count="2"] .core-photo {
-    height: 20vh;
+    height: 17vh;
+  }
+
+  /* Only the settled cluster gets a compositing hint. */
+  .core-page[data-active="false"] .core-board-inner {
+    will-change: auto;
   }
 }

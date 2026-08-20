@@ -135,11 +135,7 @@ export const createBoards = [
   {
     key: "create-primary",
     body: "Create Their Day — tell us who's celebrating and what they're into.",
-    href: site.instagram.url,
-  },
-  {
-    key: "create-follow",
-    body: `Follow Along — see the latest builds on Instagram ${site.instagram.handle}.`,
+    follow: `Follow Along — see the latest builds on Instagram ${site.instagram.handle}.`,
     href: site.instagram.url,
   },
   {
