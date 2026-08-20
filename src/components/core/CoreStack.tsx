@@ -9,9 +9,7 @@ export function CoreStack() {
   return (
     <div className="core-stack">
       <div className="core-stack-line" aria-hidden="true" />
-      {CORE_PAGES.map((page) => {
-        const isPortals = page.key === "themes";
-        return (
+      {CORE_PAGES.map((page) => (
           <section
             key={page.key}
             aria-label={page.name}
@@ -22,7 +20,7 @@ export function CoreStack() {
             }}
           >
             {page.title ? <div>{page.title}</div> : null}
-            <div className={isPortals ? "core-portal-row" : "flex flex-col gap-4"}>
+            <div className="flex flex-col gap-4">
               {page.boards.map((board) => (
                 <div key={board.key} className="core-board-inner">
                   {board.node}
@@ -30,8 +28,7 @@ export function CoreStack() {
               ))}
             </div>
           </section>
-        );
-      })}
+      ))}
     </div>
   );
 }
