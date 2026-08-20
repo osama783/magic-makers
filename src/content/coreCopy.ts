@@ -35,23 +35,25 @@ export const momentsBoards: CorePhotoCopy[] = [
     key: "moments-plush",
     photoId: "mm-bluey-station-adopt-01",
     caption:
-      "Stuff-a-Plush — kids build and adopt their own character — stuffing machine, adoption certificate, the whole ceremony.",
+      "Stuff-a-Plush: Every child builds and adopts their own plush — stuffing machine, certificate, and a best friend to take home.",
   },
   {
     key: "moments-craft",
     photoId: "mm-toystory-detail-canvas-01",
-    caption: "Craft & Paint Studios — paint-your-own canvases and themed craft tables.",
+    caption:
+      "Craft & Paint Studios: Little hands, real canvases — paint-your-own studios they'll be proud of.",
   },
   {
     key: "moments-sensory",
     photoId: "mm-bluey-detail-sensory-01",
     caption:
-      "Sensory & Play — play-dough, sensory bins, and themed stations for the smallest hands.",
+      "Sensory & Play: Play-dough, sensory bins, and hands-on stations built for even the tiniest guests.",
   },
   {
     key: "moments-bounce",
     photoId: "mm-monster-play-ballpit-01",
-    caption: "Bounce & Ball Pits — white bounce castles, ball pits, and slides.",
+    caption:
+      "Bounce & Ball Pits: Bounce castles, ball pits, and slides for the ones who came to run wild.",
   },
 ];
 
@@ -64,7 +66,8 @@ export const madeForThemBoards: CorePhotoCopy[] = [
   {
     key: "made-personalized",
     photoId: "mm-grinch-backdrop-delilah-01",
-    caption: "Their Name in Lights — personalized backdrops and signage for the guest of honor.",
+    caption:
+      "Their Name in Lights: A backdrop that's unmistakably theirs — personalized for the guest of honor.",
     // CHILD SAFETY: crop low so the personalized name on the backdrop is never legible.
     objectPosition: "50% 88%",
   },
@@ -72,12 +75,13 @@ export const madeForThemBoards: CorePhotoCopy[] = [
     key: "made-keepsake",
     photoId: "mm-bluey-station-adopt-01",
     caption:
-      "A Keepsake to Keep — adoption certificates, finished crafts, and takeaways that outlast the day.",
+      "A Keepsake to Keep: Certificates, finished crafts, and take-homes that outlast the sugar rush.",
   },
   {
     key: "made-character",
     photoId: "mm-grinch-character-photo-01",
-    caption: "Character Moments — meet-and-greets and photo ops with the characters they love.",
+    caption:
+      "Character Moments: The characters they love, in person — for the photos you'll keep forever.",
   },
 ];
 
@@ -91,23 +95,24 @@ export const adventuresBoards: CorePhotoCopy[] = [
   {
     key: adventureBySlug["a-bluey-backyard"]!.slug,
     photoId: adventureBySlug["a-bluey-backyard"]!.coverPhotoId,
-    caption: "A Bluey Backyard — ball pit, bounce castle, craft table, garland of blue.",
+    caption:
+      "A backyard turned Bluey HQ — ball pit, bounce castle, and a garland of blue from fence to fence.",
   },
   {
     key: adventureBySlug["a-monster-truck-pit-party"]!.slug,
     photoId: adventureBySlug["a-monster-truck-pit-party"]!.coverPhotoId,
-    caption: "A Monster-Truck Pit Party — two slides, one giant ball pit.",
+    caption: "A full pit party: two slides, one enormous ball pit, and zero quiet moments.",
   },
   {
     key: adventureBySlug["a-patriotic-party"]!.slug,
     photoId: adventureBySlug["a-patriotic-party"]!.coverPhotoId,
-    caption:
-      "A Star-Spangled Cookout — gingham tables, white bounce castle, backyard summer.",
+    caption: "Gingham, stars, and a white bounce castle — a backyard Fourth done right.",
   },
   {
     key: adventureBySlug["kidchella"]!.slug,
     photoId: "mm-kidchella-wide-lawn-01",
-    caption: "Kidchella, Live — a full pop-up festival activation.",
+    caption:
+      "A pop-up festival for the under-ten crowd — flowers, sequins, and a stage of their own.",
   },
 ];
 
@@ -135,7 +140,7 @@ export const createBoards = [
   {
     key: "create-primary",
     body: "Create Their Day — tell us who's celebrating and what they're into.",
-    follow: `Follow Along — see the latest builds on Instagram ${site.instagram.handle}.`,
+    follow: "Follow Along — see the latest builds on Instagram.",
     href: site.instagram.url,
   },
   {
