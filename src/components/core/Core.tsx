@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { pinScrub } from "@/anim/primitives";
 import { useScrollScene } from "@/anim/useScrollScene";
