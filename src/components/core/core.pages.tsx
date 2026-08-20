@@ -351,8 +351,8 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
           <div className="flex flex-col gap-3">
             <BoardDoodle name="bunting" />
             <p className="text-base text-[var(--ivory-50)]">
-              Design &amp; Styling — themed top to bottom: backdrops, balloon garlands, linens,
-              florals, signage.
+              Design &amp; Styling: From the first mood board to the final balloon, we style every
+              inch to their theme — backdrops, garlands, linens, and signage included.
             </p>
           </div>
         ),
@@ -363,7 +363,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
         node: (
           <PhotoBoard
             id="mm-monster-setup-carwash-01"
-            caption="Setup & Teardown — we build the entire world, and clear every trace when it's over."
+            caption="Setup & Teardown: We show up, build the whole world, and quietly clear it all away — you never fold a single chair."
           />
         ),
       },
@@ -373,7 +373,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
         node: (
           <PhotoBoard
             id="mm-patriotic-hero-environment-01"
-            caption="Furniture & Equipment — kids' tables and chairs, bounce castles, ball pits, slides, stations."
+            caption="Furniture & Equipment: Kid-sized tables, bounce castles, ball pits, slides — hauled in and ready before the first guest arrives."
           />
         ),
       },
@@ -383,7 +383,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
         node: (
           <PhotoBoard
             id="mm-grinch-backdrop-delilah-01"
-            caption="Treats & Catering — dessert tables and party spreads styled to match."
+            caption="Treats & Catering: Dessert tables and party spreads styled to match, so every treat looks as good as it tastes."
           />
         ),
       },
@@ -448,7 +448,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
             <p className="text-base text-[var(--ivory-50)]">{board.body}</p>
             <InstagramCta />
             <p className="text-base text-[var(--ivory-50)]">
-              <HandleText body={"follow" in board ? board.follow : ""} />
+              {"follow" in board ? board.follow : ""}
             </p>
           </div>
         ) : (
