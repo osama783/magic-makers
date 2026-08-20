@@ -183,28 +183,6 @@ function InstagramCta() {
   );
 }
 
-/** Renders copy verbatim, turning the handle inside it into a real link. */
-function HandleText({ body }: { body: string }) {
-  const handle = site.instagram.handle;
-  const at = body.indexOf(handle);
-  if (at < 0) return <>{body}</>;
-  return (
-    <>
-      {body.slice(0, at)}
-      <a
-        href={site.instagram.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={IG_LABEL}
-        className="core-ig-handle core-link inline-flex min-h-11 items-center"
-      >
-        {handle}
-      </a>
-      {body.slice(at + handle.length)}
-    </>
-  );
-}
-
 export const CORE_PAGES: readonly CorePageSpec[] = [
   {
     key: "invitation",
