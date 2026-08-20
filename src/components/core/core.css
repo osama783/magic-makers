@@ -280,8 +280,30 @@ a.core-link {
   }
 
   .core-page {
-    padding: clamp(104px, 14vh, 140px) 5vw clamp(28px, 5vh, 56px);
-    gap: 14px;
+    padding: 88px 4vw 20px;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+
+  .core-page-title h1,
+  .core-page-title h2,
+  .core-page h2 {
+    font-size: 1.5rem;
+  }
+
+  .core-page-title p {
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+
+  .core-board-inner p,
+  .core-caption {
+    font-size: 0.8125rem;
+    line-height: 1.3;
+  }
+
+  .core-caption {
+    padding: 8px 10px;
   }
 
   .core-board-inner {
@@ -305,11 +327,11 @@ a.core-link {
   }
 
   .core-photo {
-    height: 14vh;
+    height: 11vh;
   }
 
   .core-cluster[data-count="1"] .core-photo,
   .core-cluster[data-count="2"] .core-photo {
-    height: 22vh;
+    height: 20vh;
   }
 }
