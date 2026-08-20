@@ -98,6 +98,8 @@ function CoreOrbit() {
         start: "top top",
         end: `+=${CORE_PAGES.length * 100}%`,
         pin: true,
+        pinType: ScrollTrigger.isTouch ? "transform" : "fixed",
+        ignoreMobileResize: true,
         scrub: 0.6,
         anticipatePin: 1,
         invalidateOnRefresh: true,
