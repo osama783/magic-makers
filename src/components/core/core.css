@@ -247,20 +247,6 @@ a.core-link {
   opacity: 0.8;
 }
 
-.core-portal-row {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 8px;
-}
-
-.core-portal-row > * {
-  flex: 0 0 62vw;
-  scroll-snap-align: start;
-}
-
 .core-link:focus-visible {
   outline: 2px solid var(--acc-lavender);
   outline-offset: 3px;
