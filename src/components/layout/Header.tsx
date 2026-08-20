@@ -9,11 +9,11 @@ export function Header() {
   return (
     <header
       data-contrast="dark"
-      className="fixed top-0 right-0 left-0 z-[40] bg-ink-900/90 backdrop-blur-[2px]"
+      className="fixed top-0 right-0 left-0 z-[40] flex h-12 items-center bg-ink-900/90 backdrop-blur-[2px]"
     >
       <nav
         aria-label="Primary"
-        className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-4 lg:px-10"
+        className="mx-auto flex h-12 max-w-[1400px] items-center justify-between gap-4 px-4 lg:px-10"
       >
         {/* MISSING ASSET: replace with mm-logo-mark-dark.svg / mm-logo-mark-light.svg
             when vectors are supplied — do not restyle the real logo. */}
