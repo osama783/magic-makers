@@ -7,13 +7,19 @@ import { CORE_PAGES } from "./core.pages";
 import "./core.css";
 
 /**
- * MOBILE PATH — native CSS scroll-snap panels. No pin, no normalizeScroll,
- * no ScrollTrigger. One swipe = one page. The entrance animation is purely
- * decorative and fail-safe: panels render in their final readable state.
+ * MOBILE PATH — native HORIZONTAL CSS scroll-snap panels. No pin, no
+ * normalizeScroll, no ScrollTrigger. One left swipe = one page (next enters
+ * from the right). The entrance animation is purely decorative and fail-safe:
+ * panels render in their final readable state.
  */
 export function MobileSnap() {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const [active, setActive] = useState(0);
+  const [hintGone, setHintGone] = useState(false);
+
+  useEffect(() => {
+    if (active > 0) setHintGone(true);
+  }, [active]);
 
   useEffect(() => {
     const root = scrollerRef.current;
@@ -38,8 +44,9 @@ export function MobileSnap() {
           tweens.push(
             gsap.fromTo(
               boards,
-              { y: 26, scale: 0.97, opacity: 0.35 },
+              { x: 34, y: 10, scale: 0.97, opacity: 0.35 },
               {
+                x: 0,
                 y: 0,
                 scale: 1,
                 opacity: 1,
@@ -99,6 +106,11 @@ export function MobileSnap() {
         >
           <div className="core-snap-glow" aria-hidden="true" />
           <div className="core-snap-scan" aria-hidden="true" />
+          {i === 0 ? (
+            <div className="core-snap-hint" aria-hidden="true" data-dismissed={hintGone}>
+              Swipe →
+            </div>
+          ) : null}
           <div className="core-snap-content">
             {page.title ? <div className="core-page-title">{page.title}</div> : null}
             <div className="core-snap-cluster" data-count={page.boards.length}>
