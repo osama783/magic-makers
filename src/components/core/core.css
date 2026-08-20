@@ -288,7 +288,7 @@ a.core-link {
 
   /* Hero title lives inside a board, not the page title slot. */
   .core-board-inner h1 {
-    font-size: 2.25rem;
+    font-size: 2rem;
   }
 
   .core-board-inner h2 {
@@ -342,7 +342,7 @@ a.core-link {
 
   .core-cluster[data-count="1"] .core-photo,
   .core-cluster[data-count="2"] .core-photo {
-    height: 17vh;
+    height: 15vh;
   }
 
   /* Only the settled cluster gets a compositing hint. */
