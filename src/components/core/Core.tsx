@@ -86,10 +86,12 @@ function CoreOrbit() {
       setActive((prev) => (prev === next ? prev : next));
     };
 
+    // Touch-only: normalize scroll so a pinned gesture advances smoothly
+    // instead of jumping with the browser's async scrolling. Desktop is
+    // left exactly as it was.
+    if (ScrollTrigger.isTouch === 1) ScrollTrigger.normalizeScroll(true);
+
     // ONE scroll driver for the whole core (desktop and touch alike).
-    // Touch needs normalized scroll so a pinned gesture advances smoothly
-    // instead of jumping with the browser's async scroll.
-    ScrollTrigger.normalizeScroll(true);
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: stage,
@@ -124,6 +126,14 @@ function CoreOrbit() {
 
     apply();
   }, []);
+
+  useEffect(
+    () => () => {
+      // Leaving the route must not leave a normalizer bound to the page.
+      ScrollTrigger.normalizeScroll(false);
+    },
+    [],
+  );
 
   // Only the outgoing, active and incoming clusters are mounted.
   const live = [active - 1, active, active + 1].filter(
