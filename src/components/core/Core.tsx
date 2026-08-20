@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "@/anim/primitives";
+import { pinScrub } from "@/anim/primitives";
 import { useScrollScene } from "@/anim/useScrollScene";
 import { motionProfile } from "@/anim/shouldAnimate";
 import { CoreAmbient } from "./CoreAmbient";
@@ -74,12 +74,6 @@ function CoreOrbit() {
         });
         const title = pageEl.querySelector<HTMLElement>("[data-core-title]");
         if (title) gsap.set(title, { opacity: 1 - phase, y: -30 * phase });
-
-        // Doodles drift a touch independently of their board (tiny parallax).
-        pageEl.querySelectorAll<HTMLElement>("[data-core-doodle]").forEach((el, i) => {
-          const dir = i % 2 === 0 ? -1 : 1;
-          gsap.set(el, { x: dir * 6 * phase, y: -10 * phase });
-        });
       });
 
       glowRefs.current.forEach((el, i) => {
@@ -90,32 +84,18 @@ function CoreOrbit() {
       setActive((prev) => (prev === next ? prev : next));
     };
 
-    // Touch-only: normalize scroll so a pinned gesture advances smoothly
-    // instead of jumping with the browser's async scrolling. Desktop is
-    // left exactly as it was.
-    if (ScrollTrigger.isTouch === 1) {
-      ScrollTrigger.normalizeScroll(true);
-      ScrollTrigger.config({ ignoreMobileResize: true });
-    }
-
-    // ONE scroll driver for the whole core (desktop and touch alike).
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: stage,
-        start: "top top",
-        end: `+=${CORE_PAGES.length * 100}%`,
-        pin: true,
-        pinType: ScrollTrigger.isTouch ? "transform" : "fixed",
-        scrub: 0.6,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
+    // ONE scroll driver for the whole core — the tuned pinScrub primitive
+    // (uses scroll.scrub token + correct pin config).
+    pinScrub(stage, {
+      end: `+=${CORE_PAGES.length * 100}%`,
+      build: (tl) => {
+        tl.to(state, {
+          p: CORE_PAGES.length - 1,
+          duration: 1,
+          ease: "none",
+          onUpdate: apply,
+        });
       },
-    });
-    tl.to(state, {
-      p: CORE_PAGES.length - 1,
-      duration: 1,
-      ease: "none",
-      onUpdate: apply,
     });
 
     // Slow ambient float, applied to the inner wrapper so it never fights
@@ -130,18 +110,8 @@ function CoreOrbit() {
       });
     });
 
-    ScrollTrigger.refresh();
-
     apply();
   }, []);
-
-  useEffect(
-    () => () => {
-      // Leaving the route must not leave a normalizer bound to the page.
-      ScrollTrigger.normalizeScroll(false);
-    },
-    [],
-  );
 
   // Only the outgoing, active and incoming clusters are mounted.
   const live = [active - 1, active, active + 1].filter((i) => i >= 0 && i < CORE_PAGES.length);
