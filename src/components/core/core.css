@@ -336,3 +336,172 @@ a.core-link {
     will-change: auto;
   }
 }
+
+/* ---- MOBILE: native scroll-snap panels (no pin, no ScrollTrigger) ---- */
+
+.core-snap {
+  position: relative;
+  height: 100svh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background-color: var(--core-void);
+  color: var(--ivory-50);
+}
+
+.core-snap-panel {
+  position: relative;
+  min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  isolation: isolate;
+  padding: calc(96px + env(safe-area-inset-top)) 5vw calc(96px + env(safe-area-inset-bottom));
+}
+
+/* Accent bleed — "powering on" as the panel becomes active. */
+.core-snap-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.15;
+  transition: opacity 420ms ease-out;
+  background:
+    radial-gradient(
+      ellipse 80% 50% at 50% 45%,
+      color-mix(in oklab, var(--core-accent) 22%, transparent) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 40% 30% at 82% 88%,
+      color-mix(in oklab, var(--core-accent-2, var(--core-accent)) 12%, transparent) 0%,
+      transparent 74%
+    );
+}
+
+.core-snap-panel[data-active="true"] .core-snap-glow {
+  opacity: 1;
+}
+
+/* Faint sci-fi edge line / scan sheen. */
+.core-snap-scan {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 520ms ease-out,
+    transform 520ms ease-out;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--core-accent) 42%, transparent) 0%,
+    transparent 2px,
+    transparent calc(100% - 2px),
+    color-mix(in oklab, var(--core-accent) 26%, transparent) 100%
+  );
+  mask: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.core-snap-panel[data-active="true"] .core-snap-scan {
+  opacity: 0.85;
+  transform: translateY(0);
+}
+
+.core-snap-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 0;
+}
+
+.core-snap-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 520px;
+  min-height: 0;
+}
+
+.core-snap-cluster[data-count="3"],
+.core-snap-cluster[data-count="4"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.core-snap .core-board {
+  max-width: 100%;
+}
+
+.core-snap .core-board-inner {
+  backdrop-filter: none;
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--core-800) 96%, transparent) 0%,
+    color-mix(in oklab, var(--core-void) 98%, transparent) 100%
+  );
+  padding: 14px;
+}
+
+.core-snap .core-photo {
+  height: 20vh;
+}
+
+.core-snap-cluster[data-count="3"] .core-photo,
+.core-snap-cluster[data-count="4"] .core-photo {
+  height: 13vh;
+}
+
+/* Slim HUD progress rail. */
+.core-hud {
+  position: fixed;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.core-hud-tick {
+  width: 2px;
+  height: 12px;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--chrome) 28%, transparent);
+  transition:
+    opacity 300ms ease-out,
+    transform 300ms ease-out;
+  opacity: 0.5;
+}
+
+.core-hud-tick[data-on="true"] {
+  background: var(--core-accent);
+  opacity: 1;
+  transform: scaleY(1.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .core-snap-glow,
+  .core-snap-scan,
+  .core-hud-tick {
+    transition: none;
+  }
+  .core-snap-scan {
+    opacity: 0;
+  }
+  .core-snap-glow {
+    opacity: 1;
+  }
+}
