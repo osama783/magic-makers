@@ -194,9 +194,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
         key: "invitation-card",
         node: (
           <div className="flex flex-col items-center gap-4 text-center">
-            <p className="text-sm tracking-[0.28em] text-[var(--acc-lavender)]">
-              {site.tagline}
-            </p>
+            <p className="text-sm tracking-[0.28em] text-[var(--acc-lavender)]">{site.tagline}</p>
             <BoardDoodle name="star" />
             <h1 className="font-[family-name:var(--font-serif)] text-5xl leading-tight text-[var(--ivory-50)] md:text-6xl">
               {site.brandName}

@@ -140,13 +140,15 @@ function CoreOrbit() {
   );
 
   // Only the outgoing, active and incoming clusters are mounted.
-  const live = [active - 1, active, active + 1].filter(
-    (i) => i >= 0 && i < CORE_PAGES.length,
-  );
+  const live = [active - 1, active, active + 1].filter((i) => i >= 0 && i < CORE_PAGES.length);
 
   return (
     <div ref={scope}>
-      <div className="core-stage" data-animate="true" style={{ perspective: `${PERSPECTIVE_PX}px` }}>
+      <div
+        className="core-stage"
+        data-animate="true"
+        style={{ perspective: `${PERSPECTIVE_PX}px` }}
+      >
         <CoreAmbient
           accents={ACCENTS}
           glowRef={(el, i) => {
