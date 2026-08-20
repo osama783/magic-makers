@@ -370,7 +370,7 @@ a.core-link {
   flex-direction: column;
   justify-content: center;
   isolation: isolate;
-  padding: calc(72px + env(safe-area-inset-top)) 5vw calc(66px + env(safe-area-inset-bottom));
+  padding: calc(96px + env(safe-area-inset-top)) 5vw calc(108px + env(safe-area-inset-bottom));
 }
 
 /* Accent bleed — "powering on" as the panel becomes active. */
@@ -472,12 +472,12 @@ a.core-link {
 }
 
 .core-snap .core-photo {
-  height: 18svh;
+  height: 16svh;
 }
 
 .core-snap-cluster[data-count="3"] .core-photo,
 .core-snap-cluster[data-count="4"] .core-photo {
-  height: 11svh;
+  height: 10svh;
 }
 
 /* Slim HUD progress rail — horizontal tick row along the bottom. */
@@ -485,7 +485,7 @@ a.core-link {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(14px + env(safe-area-inset-bottom));
+  bottom: calc(92px + env(safe-area-inset-bottom));
   z-index: 5;
   display: flex;
   flex-direction: row;
@@ -516,7 +516,7 @@ a.core-link {
 .core-snap-hint {
   position: absolute;
   right: 6vw;
-  bottom: calc(38px + env(safe-area-inset-bottom));
+  bottom: calc(112px + env(safe-area-inset-bottom));
   font-size: 0.72rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
