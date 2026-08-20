@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "@/anim/primitives";
+import { pinScrub } from "@/anim/primitives";
 import { useScrollScene } from "@/anim/useScrollScene";
 import { motionProfile } from "@/anim/shouldAnimate";
 import { CoreAmbient } from "./CoreAmbient";
