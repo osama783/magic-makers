@@ -51,15 +51,15 @@ type SetterBag = {
 };
 const setters = new WeakMap<HTMLElement, SetterBag>();
 function boardSetter(el: HTMLElement): SetterBag {
-  let s = setters.get(el);
+  let s: SetterBag | undefined = setters.get(el);
   if (!s) {
     s = {
-      x: gsap.quickSetter(el, "x", "px"),
-      y: gsap.quickSetter(el, "y", "px"),
-      z: gsap.quickSetter(el, "z", "px"),
-      rotateY: gsap.quickSetter(el, "rotateY", "deg"),
-      scale: gsap.quickSetter(el, "scale"),
-      opacity: gsap.quickSetter(el, "opacity"),
+      x: gsap.quickSetter(el, "x", "px") as (v: number) => void,
+      y: gsap.quickSetter(el, "y", "px") as (v: number) => void,
+      z: gsap.quickSetter(el, "z", "px") as (v: number) => void,
+      rotateY: gsap.quickSetter(el, "rotateY", "deg") as (v: number) => void,
+      scale: gsap.quickSetter(el, "scale") as (v: number) => void,
+      opacity: gsap.quickSetter(el, "opacity") as (v: number) => void,
     };
     setters.set(el, s);
   }
@@ -68,11 +68,11 @@ function boardSetter(el: HTMLElement): SetterBag {
 type TitleSetterBag = { y: (v: number) => void; opacity: (v: number) => void };
 const titleSetters = new WeakMap<HTMLElement, TitleSetterBag>();
 function titleSetter(el: HTMLElement): TitleSetterBag {
-  let s = titleSetters.get(el);
+  let s: TitleSetterBag | undefined = titleSetters.get(el);
   if (!s) {
     s = {
-      y: gsap.quickSetter(el, "y", "px"),
-      opacity: gsap.quickSetter(el, "opacity"),
+      y: gsap.quickSetter(el, "y", "px") as (v: number) => void,
+      opacity: gsap.quickSetter(el, "opacity") as (v: number) => void,
     };
     titleSetters.set(el, s);
   }
@@ -80,9 +80,9 @@ function titleSetter(el: HTMLElement): TitleSetterBag {
 }
 const glowSetters = new WeakMap<HTMLElement, (v: number) => void>();
 function glowSetter(el: HTMLElement): (v: number) => void {
-  let s = glowSetters.get(el);
+  let s: ((v: number) => void) | undefined = glowSetters.get(el);
   if (!s) {
-    s = gsap.quickSetter(el, "opacity");
+    s = gsap.quickSetter(el, "opacity") as (v: number) => void;
     glowSetters.set(el, s);
   }
   return s;
