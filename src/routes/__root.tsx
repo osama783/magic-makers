@@ -134,7 +134,7 @@ function RootComponent() {
       <Providers>
         <SkipLink />
         <Header />
-        <main id="main" className="min-h-screen pt-20 pb-24 md:pb-0">
+        <main id="main" className="min-h-screen pt-12 pb-24 md:pb-0">
           {/* Required: nested routes render here — the only transitioning subtree later. */}
           <Outlet />
         </main>
