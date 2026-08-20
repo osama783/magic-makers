@@ -110,18 +110,8 @@ function CoreOrbit() {
       });
     });
 
-    ScrollTrigger.refresh();
-
     apply();
   }, []);
-
-  useEffect(
-    () => () => {
-      // Leaving the route must not leave a normalizer bound to the page.
-      ScrollTrigger.normalizeScroll(false);
-    },
-    [],
-  );
 
   // Only the outgoing, active and incoming clusters are mounted.
   const live = [active - 1, active, active + 1].filter((i) => i >= 0 && i < CORE_PAGES.length);
