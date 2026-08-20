@@ -6,6 +6,7 @@ import { motionProfile } from "@/anim/shouldAnimate";
 import { CoreAmbient } from "./CoreAmbient";
 import { CorePage } from "./CorePage";
 import { CoreStack } from "./CoreStack";
+import { MobileSnap } from "./MobileSnap";
 import { CORE_PAGES } from "./core.pages";
 import {
   PERSPECTIVE_PX,
@@ -20,15 +21,18 @@ import "./core.css";
 
 /** THE CORE — one cylinder, clusters of boards, one pinned scroll driver. */
 export function Core() {
-  const [orbit, setOrbit] = useState(false);
+  const [path, setPath] = useState<"static" | "snap" | "orbit">("static");
 
   useEffect(() => {
-    // Mobile + touch get the SAME spring-and-replace mechanic. Only
-    // prefers-reduced-motion collapses to the static vertical document.
-    setOrbit(motionProfile() !== "reduced");
+    // reduced -> static document; mobile/lite -> native scroll-snap panels;
+    // full desktop -> the pinned spring-and-replace (unchanged).
+    const profile = motionProfile();
+    setPath(profile === "reduced" ? "static" : profile === "full" ? "orbit" : "snap");
   }, []);
 
-  return orbit ? <CoreOrbit /> : <CoreStack />;
+  if (path === "orbit") return <CoreOrbit />;
+  if (path === "snap") return <MobileSnap />;
+  return <CoreStack />;
 }
 
 const ACCENTS = CORE_PAGES.map((p) => p.accent);
