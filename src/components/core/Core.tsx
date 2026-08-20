@@ -37,6 +37,57 @@ export function Core() {
 
 const ACCENTS = CORE_PAGES.map((p) => p.accent);
 
+/** Cached gsap.quickSetter per element so per-frame writes don't re-parse
+ *  transform props every frame (the source of desktop chunkiness). Remounted
+ *  clusters get fresh setters automatically since the WeakMap keys on the
+ *  element instance. */
+type SetterBag = {
+  x: (v: number) => void;
+  y: (v: number) => void;
+  z: (v: number) => void;
+  rotateY: (v: number) => void;
+  scale: (v: number) => void;
+  opacity: (v: number) => void;
+};
+const setters = new WeakMap<HTMLElement, SetterBag>();
+function boardSetter(el: HTMLElement): SetterBag {
+  let s: SetterBag | undefined = setters.get(el);
+  if (!s) {
+    s = {
+      x: gsap.quickSetter(el, "x", "px") as (v: number) => void,
+      y: gsap.quickSetter(el, "y", "px") as (v: number) => void,
+      z: gsap.quickSetter(el, "z", "px") as (v: number) => void,
+      rotateY: gsap.quickSetter(el, "rotateY", "deg") as (v: number) => void,
+      scale: gsap.quickSetter(el, "scale") as (v: number) => void,
+      opacity: gsap.quickSetter(el, "opacity") as (v: number) => void,
+    };
+    setters.set(el, s);
+  }
+  return s;
+}
+type TitleSetterBag = { y: (v: number) => void; opacity: (v: number) => void };
+const titleSetters = new WeakMap<HTMLElement, TitleSetterBag>();
+function titleSetter(el: HTMLElement): TitleSetterBag {
+  let s: TitleSetterBag | undefined = titleSetters.get(el);
+  if (!s) {
+    s = {
+      y: gsap.quickSetter(el, "y", "px") as (v: number) => void,
+      opacity: gsap.quickSetter(el, "opacity") as (v: number) => void,
+    };
+    titleSetters.set(el, s);
+  }
+  return s;
+}
+const glowSetters = new WeakMap<HTMLElement, (v: number) => void>();
+function glowSetter(el: HTMLElement): (v: number) => void {
+  let s: ((v: number) => void) | undefined = glowSetters.get(el);
+  if (!s) {
+    s = gsap.quickSetter(el, "opacity") as (v: number) => void;
+    glowSetters.set(el, s);
+  }
+  return s;
+}
+
 function CoreOrbit() {
   const [active, setActive] = useState(0);
   const glowRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -63,21 +114,24 @@ function CoreOrbit() {
               : leaving
                 ? exitTransform(i, count, phase)
                 : enterTransform(i, count, phase);
-          gsap.set(el, {
-            x: t.x,
-            y: t.y,
-            z: t.z,
-            rotateY: t.rotateY,
-            scale: t.scale,
-            opacity: t.opacity,
-          });
+          const s = boardSetter(el);
+          s.x(t.x);
+          s.y(t.y);
+          s.z(t.z);
+          s.rotateY(t.rotateY);
+          s.scale(t.scale);
+          s.opacity(t.opacity);
         });
         const title = pageEl.querySelector<HTMLElement>("[data-core-title]");
-        if (title) gsap.set(title, { opacity: 1 - phase, y: -30 * phase });
+        if (title) {
+          const ts = titleSetter(title);
+          ts.opacity(1 - phase);
+          ts.y(-30 * phase);
+        }
       });
 
       glowRefs.current.forEach((el, i) => {
-        if (el) gsap.set(el, { opacity: clamp01(1 - Math.abs(p - i)) });
+        if (el) glowSetter(el)(clamp01(1 - Math.abs(p - i)));
       });
 
       const next = Math.min(CORE_PAGES.length - 1, Math.max(0, Math.round(p)));
