@@ -68,7 +68,7 @@
   align-items: center;
   justify-content: center;
   gap: clamp(16px, 3vh, 36px);
-  padding: clamp(132px, 17vh, 180px) 4vw clamp(40px, 6vh, 72px);
+  padding: clamp(84px, 12vh, 120px) 4vw clamp(40px, 6vh, 72px);
   transform-style: preserve-3d;
   z-index: 1;
 }
@@ -263,7 +263,7 @@ a.core-link {
   }
 
   .core-page {
-    padding: 104px 4vw 96px;
+    padding: 72px 4vw 96px;
     gap: 10px;
     justify-content: flex-start;
   }
@@ -337,9 +337,9 @@ a.core-link {
 
 .core-snap {
   position: relative;
-  /* The root <main> already reserves the header (pt-20) and the sticky CTA
+  /* The root <main> already reserves the header (pt-12) and the sticky CTA
      (pb-24) on mobile, so the scroller fills exactly what is left. */
-  height: calc(100svh - 5rem - 6rem);
+  height: calc(100svh - 3rem - 6rem);
   display: flex;
   flex-direction: row;
   overflow-x: auto;
