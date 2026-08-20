@@ -20,6 +20,8 @@ import {
 } from "@/content/coreCopy";
 import type { PhotoAssetId } from "@/assets/photos.registry";
 import type { AccentToken } from "./core.config";
+import type { DoodleName } from "@/components/media/Doodle";
+import type { ThemeId } from "@/content/themes";
 
 export interface CoreBoardSpec {
   key: string;
@@ -33,11 +35,39 @@ export interface CorePageSpec {
   /** Accessible name for the page's <section>. */
   name: string;
   accent: AccentToken;
+  /** Small secondary accent — a single neighbour hue, minor glow only. */
+  secondary?: AccentToken;
   title?: ReactNode;
   boards: CoreBoardSpec[];
 }
 
 const BOARD_SIZES = "(max-width: 768px) 90vw, 26vw";
+
+/** Theme portals stay on-palette: each theme maps to one accent token. */
+const THEME_ACCENT: Record<ThemeId, AccentToken> = {
+  bluey: "--acc-cyan",
+  toystory: "--acc-butter",
+  monster: "--acc-coral",
+  gingerbread: "--acc-butter",
+  grinch: "--acc-mint",
+  patriotic: "--acc-cyan",
+  halloween: "--acc-coral",
+  kidchella: "--acc-pink",
+};
+
+/**
+ * Decorative accent glyph for TEXT-ONLY boards. Photo boards never get one.
+ * The outer node carries the scroll parallax, the inner one the slow float.
+ */
+function BoardDoodle({ name, size = 34 }: { name: DoodleName; size?: number }) {
+  return (
+    <span className="core-doodle" data-core-doodle aria-hidden="true">
+      <span className="core-doodle-drift" data-core-doodle-float>
+        <Doodle name={name} variant="glow" size={size} />
+      </span>
+    </span>
+  );
+}
 
 function Caption({ children }: { children: ReactNode }) {
   return (
@@ -118,6 +148,7 @@ function ThemePortal({ id, blurb }: { id: keyof typeof themeById; blurb: string 
       params={{ slug: theme.slug }}
       className="core-link block min-h-11"
       aria-label={`${theme.label} — ${blurb}`}
+      style={{ ["--core-accent" as string]: `var(${THEME_ACCENT[theme.id]})` }}
     >
       <div className="relative">
         <Picture
@@ -133,11 +164,53 @@ function ThemePortal({ id, blurb }: { id: keyof typeof themeById; blurb: string 
   );
 }
 
+const PROCESS_DOODLES: DoodleName[] = ["wand", "paintbrush", "drum", "gift"];
+const IG_LABEL = "MagicMinds on Instagram (opens in a new tab)";
+
+/** The finale CTA: instagram glyph + accent-haloed handle, ≥44px target. */
+function InstagramCta() {
+  return (
+    <a
+      href={site.instagram.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={IG_LABEL}
+      className="core-link core-ig-cta"
+    >
+      <Doodle name="instagram" variant="glow" size={30} />
+      <span className="core-ig-handle text-lg">{site.instagram.handle}</span>
+    </a>
+  );
+}
+
+/** Renders copy verbatim, turning the handle inside it into a real link. */
+function HandleText({ body }: { body: string }) {
+  const handle = site.instagram.handle;
+  const at = body.indexOf(handle);
+  if (at < 0) return <>{body}</>;
+  return (
+    <>
+      {body.slice(0, at)}
+      <a
+        href={site.instagram.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={IG_LABEL}
+        className="core-ig-handle core-link inline-flex min-h-11 items-center"
+      >
+        {handle}
+      </a>
+      {body.slice(at + handle.length)}
+    </>
+  );
+}
+
 export const CORE_PAGES: readonly CorePageSpec[] = [
   {
     key: "invitation",
     name: "The Invitation",
     accent: "--acc-lavender",
+    secondary: "--acc-cyan",
     boards: [
       {
         key: "invitation-card",
@@ -146,7 +219,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
             <p className="text-sm tracking-[0.28em] text-[var(--acc-lavender)]">
               {site.tagline}
             </p>
-            <Doodle name="star" variant="glow" size={34} className="text-[var(--acc-lavender)]" />
+            <BoardDoodle name="star" />
             <h1 className="font-[family-name:var(--font-serif)] text-5xl leading-tight text-[var(--ivory-50)] md:text-6xl">
               {site.brandName}
             </h1>
@@ -174,11 +247,13 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
     key: "imagination",
     name: "Step Into Their Imagination",
     accent: "--acc-cyan",
+    secondary: "--acc-mint",
     boards: [
       {
         key: "imagination-text",
         node: (
           <div className="flex flex-col gap-3">
+            <BoardDoodle name="planet" />
             <h2 className="font-[family-name:var(--font-serif)] text-3xl leading-tight text-[var(--ivory-50)]">
               Every child has a world inside their head.
             </h2>
@@ -205,6 +280,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
     key: "themes",
     name: "What Are They Into Right Now?",
     accent: "--acc-pink",
+    secondary: "--acc-lavender",
     title: (
       <>
         <h2 className="font-[family-name:var(--font-serif)] text-3xl leading-tight text-[var(--ivory-50)]">
@@ -257,6 +333,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
     key: "everything",
     name: "We Take Care of Everything",
     accent: "--acc-butter",
+    secondary: "--acc-coral",
     title: (
       <>
         <h2 className="font-[family-name:var(--font-serif)] text-3xl leading-tight text-[var(--ivory-50)]">
@@ -271,10 +348,13 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
       {
         key: "design",
         node: (
-          <p className="text-base text-[var(--ivory-50)]">
-            Design &amp; Styling — themed top to bottom: backdrops, balloon garlands, linens,
-            florals, signage.
-          </p>
+          <div className="flex flex-col gap-3">
+            <BoardDoodle name="bunting" />
+            <p className="text-base text-[var(--ivory-50)]">
+              Design &amp; Styling — themed top to bottom: backdrops, balloon garlands, linens,
+              florals, signage.
+            </p>
+          </div>
         ),
       },
       {
@@ -313,6 +393,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
     key: "moments",
     name: momentsPage.heading,
     accent: "--acc-mint",
+    secondary: "--acc-cyan",
     title: <PageTitle copy={momentsPage} />,
     boards: photoBoards(momentsBoards),
   },
@@ -320,6 +401,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
     key: "made-for-them",
     name: madeForThemPage.heading,
     accent: "--acc-coral",
+    secondary: "--acc-pink",
     title: <PageTitle copy={madeForThemPage} />,
     // Alt text is rewritten so no personalized child name is announced.
     boards: photoBoards(madeForThemBoards, {
@@ -331,6 +413,7 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
     key: "past-adventures",
     name: adventuresPage.heading,
     accent: "--acc-cyan",
+    secondary: "--acc-lavender",
     title: <PageTitle copy={adventuresPage} />,
     boards: photoBoards(adventuresBoards),
   },
@@ -338,31 +421,46 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
     key: "how-it-works",
     name: processPage.heading,
     accent: "--acc-lavender",
+    secondary: "--acc-pink",
     title: <PageTitle copy={processPage} />,
-    boards: processBoards.map((step) => ({
+    boards: processBoards.map((step, i) => ({
       key: step.key,
-      node: <p className="text-base text-[var(--ivory-50)]">{step.body}</p>,
+      node: (
+        <div className="flex flex-col gap-3">
+          <BoardDoodle name={PROCESS_DOODLES[i] ?? "wand"} size={30} />
+          <p className="text-base text-[var(--ivory-50)]">{step.body}</p>
+        </div>
+      ),
     })),
   },
   {
     key: "create-their-day",
     name: createPage.heading,
     accent: "--acc-butter",
+    secondary: "--acc-coral",
     title: <PageTitle copy={createPage} />,
     boards: createBoards.map((board) => ({
       key: board.key,
-      node: board.href ? (
-        <a
-          href={board.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="core-link flex min-h-11 items-center text-base text-[var(--ivory-50)] underline decoration-[var(--acc-butter)] underline-offset-4"
-        >
-          {board.body}
-        </a>
-      ) : (
-        <p className="text-base text-[var(--ivory-50)]">{board.body}</p>
-      ),
+      node:
+        board.key === "create-primary" ? (
+          <div className="flex flex-col gap-3">
+            <BoardDoodle name="cupcake" size={32} />
+            <p className="text-base text-[var(--ivory-50)]">{board.body}</p>
+            <InstagramCta />
+          </div>
+        ) : board.href ? (
+          <div className="flex flex-col gap-3">
+            <BoardDoodle name="instagram" size={30} />
+            <p className="text-base text-[var(--ivory-50)]">
+              <HandleText body={board.body} />
+            </p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <BoardDoodle name="beach-ball" size={30} />
+            <p className="text-base text-[var(--ivory-50)]">{board.body}</p>
+          </div>
+        ),
     })),
   },
 ] as const;

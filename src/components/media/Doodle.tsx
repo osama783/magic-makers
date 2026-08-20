@@ -9,7 +9,20 @@ export type DoodleName =
   | "rocket"
   | "planet"
   | "butterfly"
-  | "party-hat";
+  | "party-hat"
+  | "balloon"
+  | "cupcake"
+  | "gift"
+  | "drum"
+  | "paintbrush"
+  | "wand"
+  | "unicorn"
+  | "dinosaur"
+  | "ice-cream-cone"
+  | "bunting"
+  | "beach-ball"
+  | "teddy-bear"
+  | "instagram";
 
 export type DoodleVariant = "line" | "glow" | "silhouette";
 
@@ -27,7 +40,7 @@ export function Doodle({ name, size = 24, variant = "line", className, title }: 
   const style: CSSProperties = { width: size, height: size, color: "currentColor" };
 
   if (variant === "glow") {
-    style.filter = "drop-shadow(0 0 6px var(--lavender))";
+    style.filter = "drop-shadow(0 0 6px currentColor)";
   } else if (variant === "silhouette") {
     style.opacity = 0.2;
   }

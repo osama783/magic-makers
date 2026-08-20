@@ -27,12 +27,12 @@
   --core-void: #160e3d;
   --core-800: #241659;
   --chrome: #d9e2ff;
-  --acc-cyan: #4fd8ff;
-  --acc-pink: #ff6fb5;
-  --acc-butter: #ffd35c;
-  --acc-mint: #6fe7b7;
-  --acc-lavender: #b3a0e6;
-  --acc-coral: #ff9a6c;
+  --acc-cyan: #2ed8ff;
+  --acc-pink: #ff5cae;
+  --acc-butter: #ffd23f;
+  --acc-mint: #46e6a8;
+  --acc-lavender: #b98cff;
+  --acc-coral: #ff8a54;
 
   /* Muted text = opacity of the primary text color. Never a new grey. */
   --text-muted-opacity: 0.68;

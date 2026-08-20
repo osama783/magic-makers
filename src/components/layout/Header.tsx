@@ -31,8 +31,8 @@ export function Header() {
               <li key={item.to}>
                 <Link
                   to={item.to}
-                  className="t-caption inline-flex min-h-[44px] items-center text-ivory-50"
-                  activeProps={{ className: "text-lavender" }}
+                  className="t-caption core-link inline-flex min-h-[44px] items-center"
+                  activeProps={{ className: "opacity-100" }}
                 >
                   {item.label}
                 </Link>
@@ -42,7 +42,7 @@ export function Header() {
 
           <Link
             to={site.ctaHref}
-            className="t-caption inline-flex min-h-[44px] items-center border border-ivory-50/50 px-3 text-ivory-50 md:px-5"
+            className="t-caption core-link inline-flex min-h-[44px] items-center border border-[color-mix(in_oklab,var(--acc-lavender)_55%,transparent)] px-3 md:px-5"
           >
             {site.ctaLabel}
           </Link>
