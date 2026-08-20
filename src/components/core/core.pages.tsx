@@ -20,6 +20,8 @@ import {
 } from "@/content/coreCopy";
 import type { PhotoAssetId } from "@/assets/photos.registry";
 import type { AccentToken } from "./core.config";
+import type { DoodleName } from "@/components/media/Doodle";
+import type { ThemeId } from "@/content/themes";
 
 export interface CoreBoardSpec {
   key: string;
@@ -33,11 +35,39 @@ export interface CorePageSpec {
   /** Accessible name for the page's <section>. */
   name: string;
   accent: AccentToken;
+  /** Small secondary accent — a single neighbour hue, minor glow only. */
+  secondary?: AccentToken;
   title?: ReactNode;
   boards: CoreBoardSpec[];
 }
 
 const BOARD_SIZES = "(max-width: 768px) 90vw, 26vw";
+
+/** Theme portals stay on-palette: each theme maps to one accent token. */
+const THEME_ACCENT: Record<ThemeId, AccentToken> = {
+  bluey: "--acc-cyan",
+  toystory: "--acc-butter",
+  monster: "--acc-coral",
+  gingerbread: "--acc-butter",
+  grinch: "--acc-mint",
+  patriotic: "--acc-cyan",
+  halloween: "--acc-coral",
+  kidchella: "--acc-pink",
+};
+
+/**
+ * Decorative accent glyph for TEXT-ONLY boards. Photo boards never get one.
+ * The outer node carries the scroll parallax, the inner one the slow float.
+ */
+function BoardDoodle({ name, size = 34 }: { name: DoodleName; size?: number }) {
+  return (
+    <span className="core-doodle" data-core-doodle aria-hidden="true">
+      <span className="core-doodle-drift" data-core-doodle-float>
+        <Doodle name={name} variant="glow" size={size} />
+      </span>
+    </span>
+  );
+}
 
 function Caption({ children }: { children: ReactNode }) {
   return (
@@ -118,6 +148,7 @@ function ThemePortal({ id, blurb }: { id: keyof typeof themeById; blurb: string 
       params={{ slug: theme.slug }}
       className="core-link block min-h-11"
       aria-label={`${theme.label} — ${blurb}`}
+      style={{ ["--core-accent" as string]: `var(${THEME_ACCENT[theme.id]})` }}
     >
       <div className="relative">
         <Picture
