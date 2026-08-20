@@ -341,26 +341,38 @@ a.core-link {
 
 .core-snap {
   position: relative;
-  height: 100svh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-snap-type: y mandatory;
+  /* The root <main> already reserves the header (pt-20) and the sticky CTA
+     (pb-24) on mobile, so the scroller fills exactly what is left. */
+  height: calc(100svh - 5rem - 6rem);
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   background-color: var(--core-void);
   color: var(--ivory-50);
 }
 
+.core-snap::-webkit-scrollbar {
+  display: none;
+}
+
 .core-snap-panel {
   position: relative;
-  min-height: 100svh;
+  flex: 0 0 100vw;
+  width: 100vw;
+  min-width: 100vw;
+  height: 100%;
+  overflow: hidden;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
   flex-direction: column;
   justify-content: center;
   isolation: isolate;
-  padding: calc(96px + env(safe-area-inset-top)) 5vw calc(96px + env(safe-area-inset-bottom));
+  padding: 12px 5vw 26px;
 }
 
 /* Accent bleed — "powering on" as the panel becomes active. */
@@ -418,15 +430,21 @@ a.core-link {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   width: 100%;
+  height: 100%;
+  justify-content: center;
   min-height: 0;
+}
+
+.core-snap .core-page-title {
+  font-size: clamp(0.68rem, 3vw, 0.82rem);
 }
 
 .core-snap-cluster {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
   max-width: 520px;
   min-height: 0;
@@ -436,11 +454,12 @@ a.core-link {
 .core-snap-cluster[data-count="4"] {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 
 .core-snap .core-board {
   max-width: 100%;
+  min-height: 0;
 }
 
 .core-snap .core-board-inner {
@@ -450,34 +469,37 @@ a.core-link {
     color-mix(in oklab, var(--core-800) 96%, transparent) 0%,
     color-mix(in oklab, var(--core-void) 98%, transparent) 100%
   );
-  padding: 14px;
+  padding: 11px 12px;
+  font-size: 0.92em;
 }
 
 .core-snap .core-photo {
-  height: 20vh;
+  height: 16svh;
 }
 
 .core-snap-cluster[data-count="3"] .core-photo,
 .core-snap-cluster[data-count="4"] .core-photo {
-  height: 13vh;
+  height: 10svh;
 }
 
-/* Slim HUD progress rail. */
+/* Slim HUD progress rail — horizontal tick row along the bottom. */
 .core-hud {
   position: fixed;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  bottom: calc(104px + env(safe-area-inset-bottom));
   z-index: 5;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   gap: 6px;
   pointer-events: none;
 }
 
 .core-hud-tick {
-  width: 2px;
-  height: 12px;
+  width: 14px;
+  height: 2px;
   border-radius: 2px;
   background: color-mix(in oklab, var(--chrome) 28%, transparent);
   transition:
@@ -489,7 +511,36 @@ a.core-link {
 .core-hud-tick[data-on="true"] {
   background: var(--core-accent);
   opacity: 1;
-  transform: scaleY(1.5);
+  transform: scaleX(1.35) scaleY(2);
+}
+
+/* Swipe affordance (page 1 only). */
+.core-snap-hint {
+  position: absolute;
+  right: 6vw;
+  bottom: 6px;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--core-accent) 78%, var(--ivory-50));
+  opacity: 0.78;
+  pointer-events: none;
+  animation: core-hint-nudge 2.4s ease-in-out infinite;
+}
+
+.core-snap-hint[data-dismissed="true"] {
+  opacity: 0;
+  transition: opacity 400ms ease-out;
+}
+
+@keyframes core-hint-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -497,6 +548,9 @@ a.core-link {
   .core-snap-scan,
   .core-hud-tick {
     transition: none;
+  }
+  .core-snap-hint {
+    animation: none;
   }
   .core-snap-scan {
     opacity: 0;
