@@ -447,12 +447,8 @@ export const CORE_PAGES: readonly CorePageSpec[] = [
             <BoardDoodle name="cupcake" size={32} />
             <p className="text-base text-[var(--ivory-50)]">{board.body}</p>
             <InstagramCta />
-          </div>
-        ) : board.href ? (
-          <div className="flex flex-col gap-3">
-            <BoardDoodle name="instagram" size={30} />
             <p className="text-base text-[var(--ivory-50)]">
-              <HandleText body={board.body} />
+              <HandleText body={"follow" in board ? board.follow : ""} />
             </p>
           </div>
         ) : (
