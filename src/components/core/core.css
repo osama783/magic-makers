@@ -370,7 +370,7 @@ a.core-link {
   flex-direction: column;
   justify-content: center;
   isolation: isolate;
-  padding: calc(78px + env(safe-area-inset-top)) 5vw calc(84px + env(safe-area-inset-bottom));
+  padding: calc(72px + env(safe-area-inset-top)) 5vw calc(66px + env(safe-area-inset-bottom));
 }
 
 /* Accent bleed — "powering on" as the panel becomes active. */
