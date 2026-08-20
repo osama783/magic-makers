@@ -18,7 +18,10 @@ export function CorePage({ page, index, isActive }: CorePageProps) {
       aria-label={page.name}
       aria-hidden={!isActive}
       inert={!isActive}
-      style={{ ["--core-accent" as string]: `var(${page.accent})` }}
+      style={{
+        ["--core-accent" as string]: `var(${page.accent})`,
+        ["--core-accent-2" as string]: `var(${page.secondary ?? page.accent})`,
+      }}
     >
       {page.title ? (
         <div className="core-page-title" data-core-title>

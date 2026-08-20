@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { pinScrub } from "@/anim/primitives";
+import { ScrollTrigger } from "@/anim/primitives";
 import { useScrollScene } from "@/anim/useScrollScene";
 import { motionProfile } from "@/anim/shouldAnimate";
 import { CoreAmbient } from "./CoreAmbient";
@@ -23,7 +23,9 @@ export function Core() {
   const [orbit, setOrbit] = useState(false);
 
   useEffect(() => {
-    setOrbit(motionProfile() === "full");
+    // Mobile + touch get the SAME spring-and-replace mechanic. Only
+    // prefers-reduced-motion collapses to the static vertical document.
+    setOrbit(motionProfile() !== "reduced");
   }, []);
 
   return orbit ? <CoreOrbit /> : <CoreStack />;
@@ -68,6 +70,12 @@ function CoreOrbit() {
         });
         const title = pageEl.querySelector<HTMLElement>("[data-core-title]");
         if (title) gsap.set(title, { opacity: 1 - phase, y: -30 * phase });
+
+        // Doodles drift a touch independently of their board (tiny parallax).
+        pageEl.querySelectorAll<HTMLElement>("[data-core-doodle]").forEach((el, i) => {
+          const dir = i % 2 === 0 ? -1 : 1;
+          gsap.set(el, { x: dir * 6 * phase, y: -10 * phase });
+        });
       });
 
       glowRefs.current.forEach((el, i) => {
@@ -78,17 +86,38 @@ function CoreOrbit() {
       setActive((prev) => (prev === next ? prev : next));
     };
 
-    pinScrub(stage, {
-      end: `+=${CORE_PAGES.length * 100}%`,
-      build: (tl) => {
-        tl.to(state, {
-          p: CORE_PAGES.length - 1,
-          duration: 1,
-          ease: "none",
-          onUpdate: apply,
-        });
+    // ONE scroll driver for the whole core (desktop and touch alike).
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: stage,
+        start: "top top",
+        end: `+=${CORE_PAGES.length * 100}%`,
+        pin: true,
+        scrub: 0.6,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
       },
     });
+    tl.to(state, {
+      p: CORE_PAGES.length - 1,
+      duration: 1,
+      ease: "none",
+      onUpdate: apply,
+    });
+
+    // Slow ambient float, applied to the inner wrapper so it never fights
+    // the phase parallax above.
+    (ctx.selector?.("[data-core-doodle-float]") as Element[] | undefined)?.forEach((el, i) => {
+      gsap.to(el, {
+        y: -6,
+        duration: 3.2 + (i % 3) * 0.4,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
+    });
+
+    ScrollTrigger.refresh();
 
     apply();
   }, []);
